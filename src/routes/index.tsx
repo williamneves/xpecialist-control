@@ -1,19 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { convexQuery } from "@convex-dev/react-query";
-import { api } from "../../convex/_generated/api";
-import type { Doc } from "../../convex/_generated/dataModel";
-import { useState } from "react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
-import { toast } from "sonner";
+import { convexQuery } from "@convex-dev/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-	FileText,
-	Clock,
-	CheckCircle,
-	XCircle,
 	Calendar,
+	CheckCircle,
+	Clock,
+	FileText,
 	RefreshCw,
+	XCircle,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import DraftDetailSheet from "@/components/DraftDetailSheet";
+import { ThreadGroup } from "@/components/ThreadGroup";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
 	Table,
 	TableBody,
@@ -22,16 +32,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Tooltip,
@@ -39,7 +39,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import DraftDetailSheet from "@/components/DraftDetailSheet";
+import { api } from "../../convex/_generated/api";
+import type { Doc } from "../../convex/_generated/dataModel";
 
 export const Route = createFileRoute("/")({ component: Dashboard });
 
@@ -78,7 +79,7 @@ function formatDate(timestamp: number) {
 
 function truncateContent(content: string, maxLength = 80) {
 	if (content.length <= maxLength) return content;
-	return content.slice(0, maxLength) + "...";
+	return `${content.slice(0, maxLength)}...`;
 }
 
 type DraftStatus =
@@ -90,16 +91,36 @@ type DraftStatus =
 
 function Dashboard() {
 	const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null);
-	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+	const [, setSelectedIndex] = useState<number>(-1);
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState<DraftStatus>("pending");
 
+	// Grouped query for pending tab (threads + singles)
+	const {
+		data: groupedDrafts,
+		isLoading: isLoadingGrouped,
+		refetch: refetchGrouped,
+		isRefetching: isRefetchingGrouped,
+	} = useQuery({
+		...convexQuery(api.drafts.listPendingGrouped, {}),
+		enabled: activeTab === "pending",
+	});
+
+	// Flat query for other status tabs
 	const {
 		data: drafts,
-		isLoading,
-		refetch,
-		isRefetching,
-	} = useQuery(convexQuery(api.drafts.listAll, { status: activeTab }));
+		isLoading: isLoadingFlat,
+		refetch: refetchFlat,
+		isRefetching: isRefetchingFlat,
+	} = useQuery({
+		...convexQuery(api.drafts.listAll, { status: activeTab }),
+		enabled: activeTab !== "pending",
+	});
+
+	const isLoading = activeTab === "pending" ? isLoadingGrouped : isLoadingFlat;
+	const isRefetching =
+		activeTab === "pending" ? isRefetchingGrouped : isRefetchingFlat;
+	const refetch = activeTab === "pending" ? refetchGrouped : refetchFlat;
 
 	const handleRowClick = (draft: Draft, index: number) => {
 		setSelectedDraft(draft);
@@ -114,6 +135,7 @@ function Dashboard() {
 		}
 	};
 
+	// Handler for single draft actions (from sheet)
 	const handleActionComplete = (_action: "approve" | "reject") => {
 		// Only auto-advance when viewing pending tab
 		if (activeTab !== "pending") {
@@ -122,18 +144,30 @@ function Dashboard() {
 		}
 
 		// Small delay to let Convex real-time update propagate
-		// The current draft will be removed from the list after the action
-		// So the "next" draft will be at the same index
 		setTimeout(() => {
-			// At this point, drafts should be updated without the actioned draft
-			if (drafts && selectedIndex < drafts.length) {
-				// Draft at selectedIndex is now the "next" one
-				setSelectedDraft(drafts[selectedIndex]);
-			} else if (drafts && drafts.length > 0) {
-				// If we were at the end, show the last remaining draft
-				const lastIndex = drafts.length - 1;
-				setSelectedDraft(drafts[lastIndex]);
-				setSelectedIndex(lastIndex);
+			// For grouped view, we need to find next single in the groups
+			if (groupedDrafts && groupedDrafts.length > 0) {
+				// Find next single draft to show
+				let foundNext = false;
+				for (let i = 0; i < groupedDrafts.length; i++) {
+					const group = groupedDrafts[i];
+					if (group.type === "single") {
+						// Check if this is not the draft we just actioned
+						if (group.drafts[0]._id !== selectedDraft?._id) {
+							setSelectedDraft(group.drafts[0]);
+							setSelectedIndex(i);
+							foundNext = true;
+							break;
+						}
+					}
+				}
+				if (!foundNext) {
+					// No more singles, close sheet
+					setSheetOpen(false);
+					if (groupedDrafts.length === 0) {
+						toast.success("Todos os drafts pendentes foram revisados!");
+					}
+				}
 			} else {
 				// No more pending drafts
 				setSheetOpen(false);
@@ -141,6 +175,18 @@ function Dashboard() {
 			}
 		}, 500);
 	};
+
+	// Handler for thread group actions (from ThreadGroup component)
+	const handleGroupActionComplete = () => {
+		// Threads handle their own actions inline, just toast on completion
+		// Convex real-time will update the list automatically
+	};
+
+	// Calculate item count for card description
+	const itemCount =
+		activeTab === "pending"
+			? (groupedDrafts?.length ?? 0)
+			: (drafts?.length ?? 0);
 
 	return (
 		<>
@@ -173,7 +219,9 @@ function Dashboard() {
 								Drafts
 							</CardTitle>
 							<CardDescription>
-								{drafts?.length ?? 0} draft(s) no status selecionado
+								{activeTab === "pending"
+									? `${itemCount} item(s) pendente(s)`
+									: `${itemCount} draft(s) no status selecionado`}
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
@@ -208,12 +256,76 @@ function Dashboard() {
 								{isLoading ? (
 									<div className="space-y-4">
 										{[...Array(5)].map((_, i) => (
-											<div key={i} className="flex items-center gap-4">
+											<div key={`skeleton-${i}`} className="flex items-center gap-4">
 												<Skeleton className="h-4 w-full" />
 											</div>
 										))}
 									</div>
-								) : drafts && drafts.length > 0 ? (
+								) : activeTab === "pending" ? (
+									// Grouped view for pending tab
+									groupedDrafts && groupedDrafts.length > 0 ? (
+										<div className="space-y-4">
+											{groupedDrafts.map((group) =>
+												group.type === "thread" && group.threadId ? (
+													<ThreadGroup
+														key={group.threadId}
+														threadId={group.threadId}
+														drafts={group.drafts}
+														onActionComplete={handleGroupActionComplete}
+													/>
+												) : (
+													// Single draft - show as clickable card
+													<Card
+														key={group.drafts[0]._id}
+														className="cursor-pointer hover:bg-muted/50 transition-colors"
+														onClick={() => {
+															const idx = groupedDrafts?.indexOf(group) ?? 0;
+															handleRowClick(group.drafts[0], idx);
+														}}
+													>
+														<CardContent className="p-4">
+															<div className="flex items-center justify-between">
+																<div className="flex-1 min-w-0">
+																	<p className="line-clamp-2 text-sm">
+																		{group.drafts[0].content}
+																	</p>
+																	<div className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
+																		<span>
+																			{group.drafts[0].content.length}/280
+																		</span>
+																		<span>•</span>
+																		<span>
+																			{group.drafts[0].authorName ||
+																				"Desconhecido"}
+																		</span>
+																	</div>
+																</div>
+																<Badge variant="outline" className="ml-4">
+																	Single
+																</Badge>
+															</div>
+														</CardContent>
+													</Card>
+												),
+											)}
+										</div>
+									) : (
+										// Empty state for pending
+										<div className="flex flex-col items-center justify-center py-12 text-center">
+											<div className="rounded-full bg-muted p-4 mb-4">
+												<CheckCircle className="h-8 w-8 text-muted-foreground" />
+											</div>
+											<h3 className="text-lg font-medium">
+												Nenhum draft pendente
+											</h3>
+											<p className="text-muted-foreground mt-1 max-w-sm">
+												Todos os drafts foram revisados. Novos drafts aparecerao
+												aqui.
+											</p>
+										</div>
+									)
+								) : // Table view for other statuses
+								drafts && drafts.length > 0 ? (
 									<TooltipProvider>
 										<Table>
 											<TableHeader>
@@ -305,9 +417,7 @@ function Dashboard() {
 										</div>
 										<h3 className="text-lg font-medium">Nenhum draft</h3>
 										<p className="text-muted-foreground mt-1 max-w-sm">
-											{activeTab === "pending"
-												? "Todos os drafts foram revisados. Novos drafts aparecerao aqui."
-												: `Nenhum draft com status "${statusConfig[activeTab].label}".`}
+											{`Nenhum draft com status "${statusConfig[activeTab].label}".`}
 										</p>
 									</div>
 								)}
