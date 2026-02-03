@@ -29,11 +29,15 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
   5. After approve/reject action, user auto-advances to next pending draft
   6. Threads display as grouped units and approve/reject actions apply to entire thread
   7. User can filter drafts by status (pending/approved/rejected/scheduled/published) via tabs
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Auth protection + required rejection reason
+- [ ] 01-02-PLAN.md — Thread grouping backend (query + bulk mutations)
+- [ ] 01-03-PLAN.md — Hold-to-confirm gesture for approve
+- [ ] 01-04-PLAN.md — Status tabs + auto-advance
+- [ ] 01-05-PLAN.md — Thread UI + bulk actions integration
+- [ ] 01-06-PLAN.md — Human verification checkpoint
 
 ### Phase 2: Editing and Revision
 **Goal**: User can edit draft content before approval and revise rejected drafts for resubmission
@@ -87,7 +91,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Review Queue | 0/TBD | Not started | - |
+| 1. Core Review Queue | 0/6 | Planned | - |
 | 2. Editing and Revision | 0/TBD | Not started | - |
 | 3. Scheduling | 0/TBD | Not started | - |
 | 4. Keyboard Shortcuts | 0/TBD | Not started | - |
