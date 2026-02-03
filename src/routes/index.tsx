@@ -5,6 +5,7 @@ import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { useState } from "react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import { toast } from "sonner";
 import {
 	FileText,
 	Clock,
@@ -89,6 +90,7 @@ type DraftStatus =
 
 function Dashboard() {
 	const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null);
+	const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState<DraftStatus>("pending");
 
@@ -99,8 +101,9 @@ function Dashboard() {
 		isRefetching,
 	} = useQuery(convexQuery(api.drafts.listAll, { status: activeTab }));
 
-	const handleRowClick = (draft: Draft) => {
+	const handleRowClick = (draft: Draft, index: number) => {
 		setSelectedDraft(draft);
+		setSelectedIndex(index);
 		setSheetOpen(true);
 	};
 
@@ -109,6 +112,34 @@ function Dashboard() {
 		if (!open) {
 			setTimeout(() => setSelectedDraft(null), 300);
 		}
+	};
+
+	const handleActionComplete = (_action: "approve" | "reject") => {
+		// Only auto-advance when viewing pending tab
+		if (activeTab !== "pending") {
+			setSheetOpen(false);
+			return;
+		}
+
+		// Small delay to let Convex real-time update propagate
+		// The current draft will be removed from the list after the action
+		// So the "next" draft will be at the same index
+		setTimeout(() => {
+			// At this point, drafts should be updated without the actioned draft
+			if (drafts && selectedIndex < drafts.length) {
+				// Draft at selectedIndex is now the "next" one
+				setSelectedDraft(drafts[selectedIndex]);
+			} else if (drafts && drafts.length > 0) {
+				// If we were at the end, show the last remaining draft
+				const lastIndex = drafts.length - 1;
+				setSelectedDraft(drafts[lastIndex]);
+				setSelectedIndex(lastIndex);
+			} else {
+				// No more pending drafts
+				setSheetOpen(false);
+				toast.success("Todos os drafts pendentes foram revisados!");
+			}
+		}, 500);
 	};
 
 	return (
@@ -196,14 +227,14 @@ function Dashboard() {
 												</TableRow>
 											</TableHeader>
 											<TableBody>
-												{drafts.map((draft) => {
+												{drafts.map((draft, index) => {
 													const status = statusConfig[draft.status];
 													const StatusIcon = status.icon;
 													return (
 														<TableRow
 															key={draft._id}
 															className="cursor-pointer hover:bg-muted/50"
-															onClick={() => handleRowClick(draft)}
+															onClick={() => handleRowClick(draft, index)}
 														>
 															<TableCell className="font-medium">
 																<p className="line-clamp-2">
@@ -288,6 +319,7 @@ function Dashboard() {
 						draft={selectedDraft}
 						open={sheetOpen}
 						onOpenChange={handleSheetClose}
+						onActionComplete={handleActionComplete}
 					/>
 				</div>
 			</SignedIn>
