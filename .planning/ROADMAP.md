@@ -49,11 +49,11 @@ Plans:
   3. User can cancel edit to revert changes
   4. Rejected drafts appear in rejected status view with rejection reason visible
   5. User can edit rejected draft content and save to resubmit (status returns to pending)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Resubmit mutation + UI wiring for rejected drafts
+- [ ] 02-02-PLAN.md — Human verification checkpoint
 
 ### Phase 3: Scheduling
 **Goal**: User can schedule approved drafts for future publication times
@@ -92,6 +92,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Review Queue | 0/6 | Planned | - |
-| 2. Editing and Revision | 0/TBD | Not started | - |
+| 2. Editing and Revision | 0/2 | Planned | - |
 | 3. Scheduling | 0/TBD | Not started | - |
 | 4. Keyboard Shortcuts | 0/TBD | Not started | - |
