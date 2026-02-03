@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 3 (Scheduling) - Complete
+**Current focus:** Phase 4 (Keyboard Shortcuts) - In progress
 
 ## Current Position
 
-Phase: 3 of 4 (Scheduling)
-Plan: 5 of 5 in current phase (Phase 3 complete)
-Status: Phase complete
-Last activity: 2026-02-03 - Completed 03-05-PLAN.md (Gap Closure - Fix Scheduling Model)
+Phase: 4 of 4 (Keyboard Shortcuts)
+Plan: 2 of 3 in current phase
+Status: In progress
+Last activity: 2026-02-03 - Completed 04-02-PLAN.md (Keyboard Help Dialog)
 
-Progress: [███████████░] 46% (11/24 plans)
+Progress: [█████████████░] 54% (13/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: 4m
-- Total execution time: 47m
+- Total execution time: 49m
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [███████████░] 46% (11/24 plans)
 | 01 | 4 | 23m | 6m |
 | 02 | 2 | 4m | 2m |
 | 03 | 5 | 20m | 4m |
+| 04 | 1 | 2m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2m), 03-03 (2m), 03-02 (2m), 03-04 (4m), 03-05 (7m)
+- Last 5 plans: 03-03 (2m), 03-02 (2m), 03-04 (4m), 03-05 (7m), 04-01 (2m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -68,6 +69,8 @@ Recent decisions affecting current work:
 - Explicit timezone in formatScheduledTime
 - scheduledFor as orthogonal property (not a status)
 - Unschedule via passing undefined to schedule mutation
+- Independent armed states for approve/reject shortcuts (can be true simultaneously)
+- 5-second timeout for armed state auto-reset
 
 ### Pending Todos
 
@@ -90,36 +93,19 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Completed 03-05-PLAN.md (Gap Closure - Fix Scheduling Model)
+Stopped at: Completed 04-01-PLAN.md (Keyboard Shortcuts Hook)
 Resume file: None
 
-## Phase 3 Progress (Complete)
+## Phase 4 Progress
 
-**Plan 1 (03-01) Complete:**
-- DateTimePicker component created
-- Calendar and Popover shadcn components added
-- date-fns and react-day-picker dependencies installed
+**Plan 1 (04-01) Complete:**
+- react-hotkeys-hook v5.2.4 installed
+- useKeyboardShortcuts hook created (208 lines)
+- Double-tap armed pattern for approve (Alt+A)
+- Double-tap armed pattern for reject (Alt+R)
+- Alt+Y for reject-with-reason while armed
+- Alt+E for edit, j/k for navigation, shift+/ for help
+- Armed states independent with 5-second timeouts
+- Ready for integration in 04-03
 
-**Plan 2 (03-02) Complete:**
-- ScheduleDialog component with DateTimePicker
-- DraftDetailSheet integration (Agendar button for approved)
-- 5-minute minimum validation on submit
-
-**Plan 3 (03-03) Complete:**
-- formatScheduledTime utility with explicit timezone
-- Approved tab displays scheduled times with Calendar icon
-- Medium date + short time format
-
-**Plan 4 (03-04) Complete:**
-- Publish Now button for approved drafts
-- markPublished mutation integration
-- Show published tweet link in sheet
-
-**Plan 5 (03-05) Complete (Gap Closure):**
-- Removed 'scheduled' from status union
-- scheduledFor is now orthogonal property
-- Can schedule pending or approved drafts
-- 4-tab layout without Agendados tab
-- ScheduleDialog handles edit/remove scenarios
-
-**Ready for Phase 4:** Keyboard Shortcuts
+**Next:** 04-02 (HelpOverlay Component)
