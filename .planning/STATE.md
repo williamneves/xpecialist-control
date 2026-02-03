@@ -61,7 +61,10 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+3 todos in `.planning/todos/pending/`:
+- Layout centralizado com max-width (ui)
+- Simplificar botao approve no drawer (ui)
+- Thread composition - multiplas mensagens (ui)
 
 ### Blockers/Concerns
 
