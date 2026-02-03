@@ -30,7 +30,8 @@ export default defineSchema({
     .index('by_status', ['status'])
     .index('by_author', ['authorId'])
     .index('by_created', ['createdAt'])
-    .index('by_scheduled', ['scheduledFor']),
+    .index('by_scheduled', ['scheduledFor'])
+    .index('by_thread', ['metadata.threadId']),
 
   published: defineTable({
     content: v.string(),
