@@ -91,8 +91,7 @@ export const listAll = query({
       v.literal('pending'),
       v.literal('approved'),
       v.literal('rejected'),
-      v.literal('published'),
-      v.literal('scheduled')
+      v.literal('published')
     )),
   },
   handler: async (ctx, args) => {
@@ -215,16 +214,17 @@ export const resubmitDraft = mutation({
 export const schedule = mutation({
   args: {
     id: v.id('drafts'),
-    scheduledFor: v.number(),
+    scheduledFor: v.optional(v.number()), // optional allows unscheduling
   },
   handler: async (ctx, args) => {
     const draft = await ctx.db.get(args.id)
     if (!draft) throw new Error('Draft not found')
-    if (draft.status !== 'approved') throw new Error('Draft must be approved first')
-    
+    if (draft.status === 'rejected' || draft.status === 'published') {
+      throw new Error('Cannot schedule rejected or published drafts')
+    }
+
     await ctx.db.patch(args.id, {
-      status: 'scheduled',
-      scheduledFor: args.scheduledFor,
+      scheduledFor: args.scheduledFor, // undefined to unschedule
       updatedAt: Date.now(),
     })
     return args.id
