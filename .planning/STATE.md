@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 3 (Scheduling) - In Progress
+**Current focus:** Phase 3 (Scheduling) - Complete
 
 ## Current Position
 
 Phase: 3 of 4 (Scheduling)
-Plan: 3 of 4 in current phase (03-02, 03-03 complete)
-Status: In progress
-Last activity: 2026-02-03 — Completed 03-02-PLAN.md (ScheduleDialog)
+Plan: 5 of 5 in current phase (Phase 3 complete)
+Status: Phase complete
+Last activity: 2026-02-03 - Completed 03-05-PLAN.md (Gap Closure - Fix Scheduling Model)
 
-Progress: [█████████░] 38% (9/24 plans)
+Progress: [███████████░] 46% (11/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 11
 - Average duration: 4m
-- Total execution time: 33m
+- Total execution time: 47m
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [█████████░] 38% (9/24 plans)
 |-------|-------|-------|----------|
 | 01 | 4 | 23m | 6m |
 | 02 | 2 | 4m | 2m |
-| 03 | 3 | 6m | 2m |
+| 03 | 5 | 20m | 4m |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (1m), 03-01 (2m), 03-03 (2m), 03-02 (2m)
-- Trend: Stable/improving
+- Last 5 plans: 03-01 (2m), 03-03 (2m), 03-02 (2m), 03-04 (4m), 03-05 (7m)
+- Trend: Stable
 
 *Updated after each plan completion*
 
@@ -49,7 +49,7 @@ Recent decisions affecting current work:
 - Client-side validation with error state before mutation call
 - 500ms hold duration for approve confirmation gesture
 - HoldButton pattern for actions requiring confirmation
-- 5-tab layout with icons and responsive labels for status filtering
+- 4-tab layout: Pendentes, Aprovados, Rejeitados, Publicados (no Agendados tab)
 - 500ms delay for Convex real-time update propagation in auto-advance
 - Auto-advance only on pending tab (queue workflow semantics)
 - Threads rendered as inline collapsible cards with bulk actions
@@ -66,6 +66,8 @@ Recent decisions affecting current work:
 - Validation on submit, not on selection (better UX)
 - Medium date format for scheduled time display (more readable)
 - Explicit timezone in formatScheduledTime
+- scheduledFor as orthogonal property (not a status)
+- Unschedule via passing undefined to schedule mutation
 
 ### Pending Todos
 
@@ -76,7 +78,7 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-None yet.
+None.
 
 ### User Feedback (Logged)
 
@@ -88,10 +90,10 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Completed 03-02-PLAN.md (ScheduleDialog)
+Stopped at: Completed 03-05-PLAN.md (Gap Closure - Fix Scheduling Model)
 Resume file: None
 
-## Phase 3 Progress
+## Phase 3 Progress (Complete)
 
 **Plan 1 (03-01) Complete:**
 - DateTimePicker component created
@@ -105,7 +107,19 @@ Resume file: None
 
 **Plan 3 (03-03) Complete:**
 - formatScheduledTime utility with explicit timezone
-- Scheduled tab displays times with Calendar icon
+- Approved tab displays scheduled times with Calendar icon
 - Medium date + short time format
 
-**Ready for Plan 4 (03-04):** Publish Now functionality
+**Plan 4 (03-04) Complete:**
+- Publish Now button for approved drafts
+- markPublished mutation integration
+- Show published tweet link in sheet
+
+**Plan 5 (03-05) Complete (Gap Closure):**
+- Removed 'scheduled' from status union
+- scheduledFor is now orthogonal property
+- Can schedule pending or approved drafts
+- 4-tab layout without Agendados tab
+- ScheduleDialog handles edit/remove scenarios
+
+**Ready for Phase 4:** Optimization
