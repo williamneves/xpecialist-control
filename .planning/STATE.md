@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 1 of 4 (Core Review Queue)
-Plan: 4 of 6 in current phase
+Plan: 5 of 6 in current phase
 Status: In progress
-Last activity: 2026-02-03 — Completed 01-04-PLAN.md (Status Tabs and Auto-Advance)
+Last activity: 2026-02-03 — Completed 01-05-PLAN.md (Thread Group Display)
 
-Progress: [███░░░░░░░] 12% (3/24 plans)
+Progress: [████░░░░░░] 17% (4/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 6m
-- Total execution time: 18m
+- Total execution time: 23m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 3 | 18m | 6m |
+| 01 | 4 | 23m | 6m |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (8m), 01-03 (5m), 01-04 (5m)
+- Last 5 plans: 01-01 (8m), 01-03 (5m), 01-04 (5m), 01-05 (5m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -50,6 +50,10 @@ Recent decisions affecting current work:
 - 5-tab layout with icons and responsive labels for status filtering
 - 500ms delay for Convex real-time update propagation in auto-advance
 - Auto-advance only on pending tab (queue workflow semantics)
+- Threads rendered as inline collapsible cards with bulk actions
+- Singles rendered as clickable cards in pending tab (card view vs table)
+- Non-pending tabs keep table view for historical data
+- Conditional query enabling based on activeTab for performance
 
 ### Pending Todos
 
@@ -62,5 +66,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Completed 01-04-PLAN.md
+Stopped at: Completed 01-05-PLAN.md
 Resume file: None
