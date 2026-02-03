@@ -1,34 +1,35 @@
-import { useMutation } from "@tanstack/react-query";
 import { useConvexMutation } from "@convex-dev/react-query";
-import { api } from "../../convex/_generated/api";
-import type { Doc } from "../../convex/_generated/dataModel";
-import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
 import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetDescription,
-	SheetFooter,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { HoldButton } from "@/components/ui/hold-button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import {
-	CheckCircle,
-	XCircle,
-	Clock,
 	Calendar,
-	User,
-	Twitter,
-	Trash2,
+	CheckCircle,
+	Clock,
 	Edit3,
 	ExternalLink,
 	RefreshCw,
+	Trash2,
+	Twitter,
+	User,
+	XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { HoldButton } from "@/components/ui/hold-button";
+import { Separator } from "@/components/ui/separator";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+} from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
+import { api } from "../../convex/_generated/api";
+import type { Doc } from "../../convex/_generated/dataModel";
+import ScheduleDialog from "./ScheduleDialog";
 
 type Draft = Doc<"drafts">;
 
@@ -77,6 +78,14 @@ export default function DraftDetailSheet({
 	const [rejectionReason, setRejectionReason] = useState("");
 	const [rejectionError, setRejectionError] = useState("");
 	const [showRejectForm, setShowRejectForm] = useState(false);
+	const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+
+	// Reset dialog state when draft changes or sheet closes
+	useEffect(() => {
+		if (!open || !draft) {
+			setShowScheduleDialog(false);
+		}
+	}, [open, draft]);
 
 	const { mutate: approveDraft, isPending: isApproving } = useMutation({
 		mutationFn: useConvexMutation(api.drafts.approve),
@@ -141,6 +150,7 @@ export default function DraftDetailSheet({
 	const canEdit = draft.status !== "published";
 	const canApprove = draft.status === "pending";
 	const canDelete = draft.status !== "published";
+	const canSchedule = draft.status === "approved";
 
 	const handleStartEdit = () => {
 		setEditedContent(draft.content);
@@ -425,6 +435,16 @@ export default function DraftDetailSheet({
 							</Button>
 						)}
 						<div className="flex-1" />
+						{canSchedule && !showRejectForm && (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => setShowScheduleDialog(true)}
+							>
+								<Calendar className="h-4 w-4 mr-1" />
+								Agendar
+							</Button>
+						)}
 						{canApprove && !showRejectForm && (
 							<>
 								<Button
@@ -450,6 +470,14 @@ export default function DraftDetailSheet({
 					</div>
 				</SheetFooter>
 			</SheetContent>
+
+			{draft && (
+				<ScheduleDialog
+					draft={draft}
+					open={showScheduleDialog}
+					onOpenChange={setShowScheduleDialog}
+				/>
+			)}
 		</Sheet>
 	);
 }
