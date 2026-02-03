@@ -15,6 +15,76 @@ export const listPending = query({
   },
 })
 
+export const listPendingGrouped = query({
+  args: {},
+  handler: async (ctx) => {
+    // Get all pending drafts
+    const drafts = await ctx.db
+      .query('drafts')
+      .withIndex('by_status', (q) => q.eq('status', 'pending'))
+      .order('desc')
+      .collect()
+
+    // Group by threadId
+    const threadGroups = new Map<string, typeof drafts>()
+    const singleDrafts: typeof drafts = []
+
+    for (const draft of drafts) {
+      const threadId = draft.metadata?.threadId
+      if (threadId) {
+        const group = threadGroups.get(threadId) || []
+        group.push(draft)
+        threadGroups.set(threadId, group)
+      } else {
+        singleDrafts.push(draft)
+      }
+    }
+
+    // Sort drafts within each thread by threadIndex (ascending for reading order)
+    for (const group of threadGroups.values()) {
+      group.sort((a, b) => {
+        const indexA = a.metadata?.threadIndex ?? 0
+        const indexB = b.metadata?.threadIndex ?? 0
+        return indexA - indexB
+      })
+    }
+
+    // Build result: thread groups first (by newest draft in group), then singles
+    const result: Array<{
+      type: 'thread' | 'single'
+      threadId: string | null
+      drafts: typeof drafts
+      newestAt: number
+    }> = []
+
+    // Add thread groups
+    for (const [threadId, groupDrafts] of threadGroups) {
+      const newestAt = Math.max(...groupDrafts.map(d => d.createdAt))
+      result.push({
+        type: 'thread',
+        threadId,
+        drafts: groupDrafts,
+        newestAt,
+      })
+    }
+
+    // Add single drafts as individual groups
+    for (const draft of singleDrafts) {
+      result.push({
+        type: 'single',
+        threadId: null,
+        drafts: [draft],
+        newestAt: draft.createdAt,
+      })
+    }
+
+    // Sort all groups by newest draft (descending)
+    result.sort((a, b) => b.newestAt - a.newestAt)
+
+    return result
+  },
+})
+
 export const listAll = query({
   args: {
     status: v.optional(v.union(
@@ -192,5 +262,63 @@ export const remove = mutation({
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id)
     return args.id
+  },
+})
+
+export const approveThread = mutation({
+  args: { threadId: v.string() },
+  handler: async (ctx, args) => {
+    const drafts = await ctx.db
+      .query('drafts')
+      .filter((q) =>
+        q.and(
+          q.eq(q.field('status'), 'pending'),
+          q.eq(q.field('metadata.threadId'), args.threadId)
+        )
+      )
+      .collect()
+
+    if (drafts.length === 0) throw new Error('No pending drafts in thread')
+
+    const now = Date.now()
+    for (const draft of drafts) {
+      await ctx.db.patch(draft._id, {
+        status: 'approved',
+        updatedAt: now,
+      })
+    }
+
+    return drafts.length
+  },
+})
+
+export const rejectThread = mutation({
+  args: {
+    threadId: v.string(),
+    reason: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const drafts = await ctx.db
+      .query('drafts')
+      .filter((q) =>
+        q.and(
+          q.eq(q.field('status'), 'pending'),
+          q.eq(q.field('metadata.threadId'), args.threadId)
+        )
+      )
+      .collect()
+
+    if (drafts.length === 0) throw new Error('No pending drafts in thread')
+
+    const now = Date.now()
+    for (const draft of drafts) {
+      await ctx.db.patch(draft._id, {
+        status: 'rejected',
+        updatedAt: now,
+        rejectionReason: args.reason,
+      })
+    }
+
+    return drafts.length
   },
 })
