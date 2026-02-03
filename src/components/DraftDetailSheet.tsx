@@ -26,6 +26,7 @@ import {
 	Trash2,
 	Edit3,
 	ExternalLink,
+	RefreshCw,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -123,6 +124,16 @@ export default function DraftDetailSheet({
 		onError: (error) => toast.error(`Erro: ${error.message}`),
 	});
 
+	const { mutate: resubmitDraft, isPending: isResubmitting } = useMutation({
+		mutationFn: useConvexMutation(api.drafts.resubmitDraft),
+		onSuccess: () => {
+			toast.success("Draft reenviado para revisao!");
+			setIsEditing(false);
+			onOpenChange(false);
+		},
+		onError: (error) => toast.error(`Erro: ${error.message}`),
+	});
+
 	if (!draft) return null;
 
 	const status = statusConfig[draft.status];
@@ -136,8 +147,28 @@ export default function DraftDetailSheet({
 		setIsEditing(true);
 	};
 
+	const handleResubmit = () => {
+		if (editedContent.trim()) {
+			resubmitDraft({ id: draft._id, content: editedContent });
+		}
+	};
+
 	const handleSaveEdit = () => {
-		if (editedContent.trim() && editedContent !== draft.content) {
+		if (!editedContent.trim()) {
+			setIsEditing(false);
+			return;
+		}
+
+		if (draft.status === "rejected") {
+			// For rejected drafts, saving = resubmit to pending (only if content changed)
+			if (editedContent !== draft.content) {
+				handleResubmit();
+			} else {
+				// Content unchanged - just close edit mode without mutation
+				setIsEditing(false);
+			}
+		} else if (editedContent !== draft.content) {
+			// For other drafts, just update content
 			updateContent({ id: draft._id, content: editedContent });
 		} else {
 			setIsEditing(false);
@@ -222,9 +253,16 @@ export default function DraftDetailSheet({
 										<Button
 											size="sm"
 											onClick={handleSaveEdit}
-											disabled={isUpdating}
+											disabled={isUpdating || isResubmitting}
 										>
-											Salvar
+											{draft.status === "rejected" ? (
+												<>
+													<RefreshCw className="h-3 w-3 mr-1" />
+													Reenviar
+												</>
+											) : (
+												"Salvar"
+											)}
 										</Button>
 									</div>
 								</div>
@@ -302,6 +340,13 @@ export default function DraftDetailSheet({
 								</p>
 							</div>
 						</>
+					)}
+
+					{/* Resubmit Hint for Rejected Drafts */}
+					{draft.status === "rejected" && !isEditing && (
+						<p className="text-sm text-muted-foreground">
+							Edite o conteudo e salve para reenviar para revisao.
+						</p>
 					)}
 
 					{/* Tweet Link */}
