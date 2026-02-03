@@ -172,7 +172,7 @@ export const approve = mutation({
 })
 
 export const reject = mutation({
-  args: { 
+  args: {
     id: v.id('drafts'),
     reason: v.optional(v.string()),
   },
@@ -180,11 +180,33 @@ export const reject = mutation({
     const draft = await ctx.db.get(args.id)
     if (!draft) throw new Error('Draft not found')
     if (draft.status !== 'pending') throw new Error('Draft is not pending')
-    
+
     await ctx.db.patch(args.id, {
       status: 'rejected',
       updatedAt: Date.now(),
       rejectionReason: args.reason,
+    })
+    return args.id
+  },
+})
+
+export const resubmitDraft = mutation({
+  args: {
+    id: v.id('drafts'),
+    content: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const draft = await ctx.db.get(args.id)
+    if (!draft) throw new Error('Draft not found')
+    if (draft.status !== 'rejected') {
+      throw new Error('Only rejected drafts can be resubmitted')
+    }
+
+    await ctx.db.patch(args.id, {
+      content: args.content,
+      status: 'pending',
+      updatedAt: Date.now(),
+      rejectionReason: undefined,
     })
     return args.id
   },
