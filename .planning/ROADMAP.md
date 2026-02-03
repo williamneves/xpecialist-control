@@ -77,16 +77,18 @@ Plans:
 **Depends on**: Phase 1, Phase 2
 **Requirements**: KEY-01, KEY-02, KEY-03, KEY-04, KEY-05, KEY-06
 **Success Criteria** (what must be TRUE):
-  1. User can press 'a' to approve current draft
-  2. User can press 'r' to open reject dialog
-  3. User can press 'j'/'k' to navigate between drafts
-  4. User can press 'e' to enter edit mode
+  1. User can press Alt+A to approve current draft (double-tap confirmation)
+  2. User can press Alt+R to quick-reject with default reason
+  3. User can press j/k to navigate between drafts
+  4. User can press Alt+E to enter edit mode
   5. User can press Escape to close dialogs and cancel actions
   6. Keyboard shortcuts are disabled when user is typing in an input field
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Install react-hotkeys-hook + create useKeyboardShortcuts hook
+- [ ] 04-02-PLAN.md — Create KeyboardHelpDialog component
+- [ ] 04-03-PLAN.md — Integrate shortcuts into Dashboard + human verification
 
 ## Progress
 
@@ -98,4 +100,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Core Review Queue | 0/6 | Planned | - |
 | 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
 | 3. Scheduling | 5/5 | Complete | 2026-02-03 |
-| 4. Keyboard Shortcuts | 0/TBD | Not started | - |
+| 4. Keyboard Shortcuts | 0/3 | Planned | - |
