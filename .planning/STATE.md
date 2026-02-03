@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 ## Current Position
 
 Phase: 3 of 4 (Scheduling)
-Plan: 3 of 4 in current phase
+Plan: 3 of 4 in current phase (03-02, 03-03 complete)
 Status: In progress
-Last activity: 2026-02-03 — Completed 03-03-PLAN.md (Scheduled Time Display)
+Last activity: 2026-02-03 — Completed 03-02-PLAN.md (ScheduleDialog)
 
-Progress: [████████░░] 33% (8/24 plans)
+Progress: [█████████░] 38% (9/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 4m
-- Total execution time: 31m
+- Total execution time: 33m
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [████████░░] 33% (8/24 plans)
 |-------|-------|-------|----------|
 | 01 | 4 | 23m | 6m |
 | 02 | 2 | 4m | 2m |
-| 03 | 2 | 4m | 2m |
+| 03 | 3 | 6m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (3m), 02-02 (1m), 03-01 (2m), 03-03 (2m)
+- Last 5 plans: 02-02 (1m), 03-01 (2m), 03-03 (2m), 03-02 (2m)
 - Trend: Stable/improving
 
 *Updated after each plan completion*
@@ -62,6 +62,8 @@ Recent decisions affecting current work:
 - 15-minute intervals for DateTimePicker minute selection
 - Default to 9:00 AM when date selected without existing time
 - Date-only comparison for calendar disable logic (allows scheduling today)
+- 5-minute minimum buffer for scheduling validation
+- Validation on submit, not on selection (better UX)
 - Medium date format for scheduled time display (more readable)
 - Explicit timezone in formatScheduledTime
 
@@ -86,7 +88,7 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Completed 03-03-PLAN.md (Scheduled Time Display)
+Stopped at: Completed 03-02-PLAN.md (ScheduleDialog)
 Resume file: None
 
 ## Phase 3 Progress
@@ -95,6 +97,11 @@ Resume file: None
 - DateTimePicker component created
 - Calendar and Popover shadcn components added
 - date-fns and react-day-picker dependencies installed
+
+**Plan 2 (03-02) Complete:**
+- ScheduleDialog component with DateTimePicker
+- DraftDetailSheet integration (Agendar button for approved)
+- 5-minute minimum validation on submit
 
 **Plan 3 (03-03) Complete:**
 - formatScheduledTime utility with explicit timezone
