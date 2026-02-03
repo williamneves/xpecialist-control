@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 1 - Core Review Queue
+**Current focus:** Phase 2 - Editing and Revision
 
 ## Current Position
 
-Phase: 1 of 4 (Core Review Queue)
-Plan: 5 of 6 in current phase
+Phase: 2 of 4 (Editing and Revision)
+Plan: 1 of 2 in current phase
 Status: In progress
-Last activity: 2026-02-03 — Completed 01-05-PLAN.md (Thread Group Display)
+Last activity: 2026-02-03 — Completed 02-01-PLAN.md (Rejected Draft Resubmit)
 
-Progress: [████░░░░░░] 17% (4/24 plans)
+Progress: [█████░░░░░] 21% (5/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 6m
-- Total execution time: 23m
+- Total plans completed: 5
+- Average duration: 5m
+- Total execution time: 26m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 4 | 23m | 6m |
+| 02 | 1 | 3m | 3m |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (8m), 01-03 (5m), 01-04 (5m), 01-05 (5m)
-- Trend: Stable
+- Last 5 plans: 01-03 (5m), 01-04 (5m), 01-05 (5m), 02-01 (3m)
+- Trend: Stable/improving
 
 *Updated after each plan completion*
 
@@ -54,6 +55,8 @@ Recent decisions affecting current work:
 - Singles rendered as clickable cards in pending tab (card view vs table)
 - Non-pending tabs keep table view for historical data
 - Conditional query enabling based on activeTab for performance
+- Resubmit only when content changed (matches updateContent pattern)
+- Clear rejectionReason on resubmit (clean slate for re-review)
 
 ### Pending Todos
 
@@ -66,5 +69,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Completed 01-05-PLAN.md
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None
