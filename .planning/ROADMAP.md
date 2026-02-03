@@ -12,7 +12,7 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
 
 - [ ] **Phase 1: Core Review Queue** - Authenticated draft queue with thread grouping and status views
 - [x] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
-- [ ] **Phase 3: Scheduling** - Schedule approved drafts for future publication
+- [x] **Phase 3: Scheduling** - Schedule approved drafts for future publication
 - [ ] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
 
 ## Phase Details
@@ -28,7 +28,7 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
   4. User can reject a draft with required reason
   5. After approve/reject action, user auto-advances to next pending draft
   6. Threads display as grouped units and approve/reject actions apply to entire thread
-  7. User can filter drafts by status (pending/approved/rejected/scheduled/published) via tabs
+  7. User can filter drafts by status (pending/approved/rejected/published) via tabs
 **Plans**: 6 plans
 
 Plans:
@@ -56,20 +56,21 @@ Plans:
 - [x] 02-02-PLAN.md — Human verification checkpoint
 
 ### Phase 3: Scheduling
-**Goal**: User can schedule approved drafts for future publication times
+**Goal**: User can schedule pending or approved drafts for future publication times
 **Depends on**: Phase 1
 **Requirements**: SCHED-01, SCHED-02, SCHED-03
 **Success Criteria** (what must be TRUE):
-  1. User can schedule an approved draft for a specific future date/time
+  1. User can schedule a pending or approved draft for a specific future date/time
   2. Date/time picker displays times in user's local timezone
-  3. Scheduled drafts appear in scheduled status view with scheduled time visible
-**Plans**: 4 plans
+  3. Scheduled time visible as property on drafts (not a separate status)
+**Plans**: 5 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — DateTimePicker component + dependencies
-- [ ] 03-02-PLAN.md — ScheduleDialog + DraftDetailSheet integration
-- [ ] 03-03-PLAN.md — Scheduled time display in scheduled tab
-- [ ] 03-04-PLAN.md — Human verification checkpoint
+- [x] 03-01-PLAN.md — DateTimePicker component + dependencies
+- [x] 03-02-PLAN.md — ScheduleDialog + DraftDetailSheet integration
+- [x] 03-03-PLAN.md — Scheduled time display in tabs
+- [x] 03-04-PLAN.md — Human verification checkpoint
+- [x] 03-05-PLAN.md — Gap closure: scheduledFor as property, not status
 
 ### Phase 4: Keyboard Shortcuts
 **Goal**: Power users can review drafts rapidly using keyboard-only navigation
@@ -96,5 +97,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Core Review Queue | 0/6 | Planned | - |
 | 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
-| 3. Scheduling | 0/4 | Planned | - |
+| 3. Scheduling | 5/5 | Complete | 2026-02-03 |
 | 4. Keyboard Shortcuts | 0/TBD | Not started | - |

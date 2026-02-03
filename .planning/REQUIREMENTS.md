@@ -113,9 +113,9 @@
 | REV-01 | Phase 2 | Complete |
 | REV-02 | Phase 2 | Complete |
 | REV-03 | Phase 2 | Complete |
-| SCHED-01 | Phase 3 | Pending |
-| SCHED-02 | Phase 3 | Pending |
-| SCHED-03 | Phase 3 | Pending |
+| SCHED-01 | Phase 3 | Complete |
+| SCHED-02 | Phase 3 | Complete |
+| SCHED-03 | Phase 3 | Complete |
 | KEY-01 | Phase 4 | Pending |
 | KEY-02 | Phase 4 | Pending |
 | KEY-03 | Phase 4 | Pending |

@@ -122,4 +122,4 @@ Resume file: None
 - 4-tab layout without Agendados tab
 - ScheduleDialog handles edit/remove scenarios
 
-**Ready for Phase 4:** Optimization
+**Ready for Phase 4:** Keyboard Shortcuts
