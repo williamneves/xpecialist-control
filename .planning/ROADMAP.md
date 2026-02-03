@@ -11,7 +11,7 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
 - Decimal phases (e.g., 2.1): Urgent insertions (marked with INSERTED)
 
 - [ ] **Phase 1: Core Review Queue** - Authenticated draft queue with thread grouping and status views
-- [ ] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
+- [x] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
 - [ ] **Phase 3: Scheduling** - Schedule approved drafts for future publication
 - [ ] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
 
@@ -52,8 +52,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Resubmit mutation + UI wiring for rejected drafts
-- [ ] 02-02-PLAN.md — Human verification checkpoint
+- [x] 02-01-PLAN.md — Resubmit mutation + UI wiring for rejected drafts
+- [x] 02-02-PLAN.md — Human verification checkpoint
 
 ### Phase 3: Scheduling
 **Goal**: User can schedule approved drafts for future publication times
@@ -95,6 +95,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Review Queue | 0/6 | Planned | - |
-| 2. Editing and Revision | 0/2 | Planned | - |
+| 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
 | 3. Scheduling | 0/4 | Planned | - |
 | 4. Keyboard Shortcuts | 0/TBD | Not started | - |
