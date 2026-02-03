@@ -63,10 +63,13 @@ Plans:
   1. User can schedule an approved draft for a specific future date/time
   2. Date/time picker displays times in user's local timezone
   3. Scheduled drafts appear in scheduled status view with scheduled time visible
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — DateTimePicker component + dependencies
+- [ ] 03-02-PLAN.md — ScheduleDialog + DraftDetailSheet integration
+- [ ] 03-03-PLAN.md — Scheduled time display in scheduled tab
+- [ ] 03-04-PLAN.md — Human verification checkpoint
 
 ### Phase 4: Keyboard Shortcuts
 **Goal**: Power users can review drafts rapidly using keyboard-only navigation
@@ -93,5 +96,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Core Review Queue | 0/6 | Planned | - |
 | 2. Editing and Revision | 0/2 | Planned | - |
-| 3. Scheduling | 0/TBD | Not started | - |
+| 3. Scheduling | 0/4 | Planned | - |
 | 4. Keyboard Shortcuts | 0/TBD | Not started | - |
