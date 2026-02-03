@@ -4,6 +4,7 @@ import { convexQuery } from '@convex-dev/react-query'
 import { api } from '../../convex/_generated/api'
 import type { Doc } from '../../convex/_generated/dataModel'
 import { useState } from 'react'
+import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react'
 import { FileText, Clock, CheckCircle, XCircle, Calendar, RefreshCw } from 'lucide-react'
 import {
   Table,
@@ -64,109 +65,130 @@ function Dashboard() {
   }
 
   return (
-    <div className="container max-w-screen-2xl py-8 px-4">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground mt-1">
-            Gerencie seus drafts pendentes de aprovação
-          </p>
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          disabled={isRefetching}
-        >
-          <RefreshCw className={`h-4 w-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`} />
-          Atualizar
-        </Button>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5 text-[#1DA1F2]" />
-            Drafts Pendentes
-          </CardTitle>
-          <CardDescription>
-            {drafts?.length ?? 0} draft(s) aguardando revisão
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <Skeleton className="h-4 w-full" />
-                </div>
-              ))}
-            </div>
-          ) : drafts && drafts.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[50%]">Conteúdo</TableHead>
-                  <TableHead>Autor</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Criado em</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {drafts.map((draft) => {
-                  const status = statusConfig[draft.status]
-                  const StatusIcon = status.icon
-                  return (
-                    <TableRow
-                      key={draft._id}
-                      className="cursor-pointer hover:bg-muted/50"
-                      onClick={() => handleRowClick(draft)}
-                    >
-                      <TableCell className="font-medium">
-                        <p className="line-clamp-2">{truncateContent(draft.content)}</p>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {draft.authorName || 'Desconhecido'}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="capitalize">
-                          {draft.metadata?.type || 'single'}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-sm">
-                        {formatDate(draft.createdAt)}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={status.variant} className="gap-1">
-                          <StatusIcon className="h-3 w-3" />
-                          {status.label}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="rounded-full bg-muted p-4 mb-4">
-                <CheckCircle className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium">Nenhum draft pendente</h3>
-              <p className="text-muted-foreground mt-1 max-w-sm">
-                Todos os drafts foram revisados. Novos drafts aparecerão aqui quando forem criados.
+    <>
+      <SignedIn>
+        <div className="container max-w-screen-2xl py-8 px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+              <p className="text-muted-foreground mt-1">
+                Gerencie seus drafts pendentes de aprovação
               </p>
             </div>
-          )}
-        </CardContent>
-      </Card>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isRefetching}
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${isRefetching ? 'animate-spin' : ''}`} />
+              Atualizar
+            </Button>
+          </div>
 
-      <DraftDetailSheet
-        draft={selectedDraft}
-        open={sheetOpen}
-        onOpenChange={handleSheetClose}
-      />
-    </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-[#1DA1F2]" />
+                Drafts Pendentes
+              </CardTitle>
+              <CardDescription>
+                {drafts?.length ?? 0} draft(s) aguardando revisão
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center gap-4">
+                      <Skeleton className="h-4 w-full" />
+                    </div>
+                  ))}
+                </div>
+              ) : drafts && drafts.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[50%]">Conteúdo</TableHead>
+                      <TableHead>Autor</TableHead>
+                      <TableHead>Tipo</TableHead>
+                      <TableHead>Criado em</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {drafts.map((draft) => {
+                      const status = statusConfig[draft.status]
+                      const StatusIcon = status.icon
+                      return (
+                        <TableRow
+                          key={draft._id}
+                          className="cursor-pointer hover:bg-muted/50"
+                          onClick={() => handleRowClick(draft)}
+                        >
+                          <TableCell className="font-medium">
+                            <p className="line-clamp-2">{truncateContent(draft.content)}</p>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">
+                            {draft.authorName || 'Desconhecido'}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className="capitalize">
+                              {draft.metadata?.type || 'single'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground text-sm">
+                            {formatDate(draft.createdAt)}
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={status.variant} className="gap-1">
+                              <StatusIcon className="h-3 w-3" />
+                              {status.label}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    })}
+                  </TableBody>
+                </Table>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                  <div className="rounded-full bg-muted p-4 mb-4">
+                    <CheckCircle className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-medium">Nenhum draft pendente</h3>
+                  <p className="text-muted-foreground mt-1 max-w-sm">
+                    Todos os drafts foram revisados. Novos drafts aparecerão aqui quando forem criados.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <DraftDetailSheet
+            draft={selectedDraft}
+            open={sheetOpen}
+            onOpenChange={handleSheetClose}
+          />
+        </div>
+      </SignedIn>
+      <SignedOut>
+        <div className="container max-w-screen-2xl py-8 px-4 flex items-center justify-center min-h-[60vh]">
+          <Card className="w-full max-w-md">
+            <CardHeader className="text-center">
+              <CardTitle>Acesso Restrito</CardTitle>
+              <CardDescription>Faca login para acessar o dashboard</CardDescription>
+            </CardHeader>
+            <CardContent className="flex justify-center">
+              <SignInButton mode="modal">
+                <Button className="bg-[#1DA1F2] hover:bg-[#1DA1F2]/90">
+                  Entrar com Clerk
+                </Button>
+              </SignInButton>
+            </CardContent>
+          </Card>
+        </div>
+      </SignedOut>
+    </>
   )
 }
