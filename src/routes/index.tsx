@@ -58,11 +58,6 @@ const statusConfig = {
 		variant: "destructive" as const,
 		icon: XCircle,
 	},
-	scheduled: {
-		label: "Agendado",
-		variant: "secondary" as const,
-		icon: Calendar,
-	},
 	published: {
 		label: "Publicado",
 		variant: "default" as const,
@@ -90,12 +85,7 @@ function truncateContent(content: string, maxLength = 80) {
 	return `${content.slice(0, maxLength)}...`;
 }
 
-type DraftStatus =
-	| "pending"
-	| "approved"
-	| "rejected"
-	| "scheduled"
-	| "published";
+type DraftStatus = "pending" | "approved" | "rejected" | "published";
 
 function Dashboard() {
 	const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null);
@@ -238,7 +228,7 @@ function Dashboard() {
 								onValueChange={(v) => setActiveTab(v as DraftStatus)}
 								className="w-full"
 							>
-								<TabsList className="grid w-full grid-cols-5 mb-6">
+								<TabsList className="grid w-full grid-cols-4 mb-6">
 									<TabsTrigger value="pending" className="gap-1">
 										<Clock className="h-3 w-3" />
 										<span className="hidden sm:inline">Pendentes</span>
@@ -250,10 +240,6 @@ function Dashboard() {
 									<TabsTrigger value="rejected" className="gap-1">
 										<XCircle className="h-3 w-3" />
 										<span className="hidden sm:inline">Rejeitados</span>
-									</TabsTrigger>
-									<TabsTrigger value="scheduled" className="gap-1">
-										<Calendar className="h-3 w-3" />
-										<span className="hidden sm:inline">Agendados</span>
 									</TabsTrigger>
 									<TabsTrigger value="published" className="gap-1">
 										<FileText className="h-3 w-3" />
@@ -402,7 +388,7 @@ function Dashboard() {
 																			</TooltipContent>
 																		</Tooltip>
 																	)}
-																{draft.status === "scheduled" &&
+																{draft.status === "approved" &&
 																	draft.scheduledFor && (
 																		<div className="flex items-center gap-2 text-muted-foreground">
 																			<Calendar className="h-4 w-4" />

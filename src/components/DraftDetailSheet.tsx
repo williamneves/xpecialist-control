@@ -52,11 +52,6 @@ const statusConfig = {
 		variant: "destructive" as const,
 		icon: XCircle,
 	},
-	scheduled: {
-		label: "Agendado",
-		variant: "secondary" as const,
-		icon: Calendar,
-	},
 	published: { label: "Publicado", variant: "default" as const, icon: Twitter },
 };
 
@@ -150,7 +145,8 @@ export default function DraftDetailSheet({
 	const canEdit = draft.status !== "published";
 	const canApprove = draft.status === "pending";
 	const canDelete = draft.status !== "published";
-	const canSchedule = draft.status === "approved";
+	const canSchedule =
+		draft.status === "pending" || draft.status === "approved";
 
 	const handleStartEdit = () => {
 		setEditedContent(draft.content);
