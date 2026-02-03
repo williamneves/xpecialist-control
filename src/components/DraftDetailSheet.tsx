@@ -12,6 +12,7 @@ import {
   SheetFooter,
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
+import { HoldButton } from '@/components/ui/hold-button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
@@ -59,6 +60,7 @@ export default function DraftDetailSheet({
   const [isEditing, setIsEditing] = useState(false)
   const [editedContent, setEditedContent] = useState('')
   const [rejectionReason, setRejectionReason] = useState('')
+  const [rejectionError, setRejectionError] = useState('')
   const [showRejectForm, setShowRejectForm] = useState(false)
 
   const { mutate: approveDraft, isPending: isApproving } = useMutation({
@@ -121,9 +123,19 @@ export default function DraftDetailSheet({
   }
 
   const handleReject = () => {
+    const trimmedReason = rejectionReason.trim()
+    if (!trimmedReason) {
+      setRejectionError('Motivo da rejeicao e obrigatorio')
+      return
+    }
+    if (trimmedReason.length < 10) {
+      setRejectionError('Motivo deve ter pelo menos 10 caracteres')
+      return
+    }
+    setRejectionError('')
     rejectDraft({
       id: draft._id,
-      reason: rejectionReason || undefined,
+      reason: trimmedReason,
     })
   }
 
@@ -292,14 +304,20 @@ export default function DraftDetailSheet({
               <Separator />
               <div className="space-y-3">
                 <span className="text-sm font-medium text-muted-foreground">
-                  Motivo da rejeição (opcional)
+                  Motivo da rejeicao *
                 </span>
                 <Textarea
                   value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
-                  placeholder="Descreva o motivo..."
+                  onChange={(e) => {
+                    setRejectionReason(e.target.value)
+                    setRejectionError('')
+                  }}
+                  placeholder="Descreva o motivo (minimo 10 caracteres)..."
                   className="min-h-20 resize-none"
                 />
+                {rejectionError && (
+                  <p className="text-sm text-destructive">{rejectionError}</p>
+                )}
                 <div className="flex gap-2">
                   <Button
                     variant="ghost"
@@ -307,6 +325,7 @@ export default function DraftDetailSheet({
                     onClick={() => {
                       setShowRejectForm(false)
                       setRejectionReason('')
+                      setRejectionError('')
                     }}
                   >
                     Cancelar
@@ -315,9 +334,9 @@ export default function DraftDetailSheet({
                     variant="destructive"
                     size="sm"
                     onClick={handleReject}
-                    disabled={isRejecting}
+                    disabled={isRejecting || rejectionReason.trim().length < 10}
                   >
-                    Confirmar Rejeição
+                    Confirmar Rejeicao
                   </Button>
                 </div>
               </div>
@@ -349,15 +368,16 @@ export default function DraftDetailSheet({
                   <XCircle className="h-4 w-4 mr-1" />
                   Rejeitar
                 </Button>
-                <Button
+                <HoldButton
                   size="sm"
-                  onClick={() => approveDraft({ id: draft._id })}
+                  onComplete={() => approveDraft({ id: draft._id })}
                   disabled={isApproving}
                   className="bg-[#1DA1F2] hover:bg-[#1DA1F2]/90"
+                  holdDuration={500}
                 >
                   <CheckCircle className="h-4 w-4 mr-1" />
-                  Aprovar
-                </Button>
+                  {isApproving ? 'Aprovando...' : 'Segurar para Aprovar'}
+                </HoldButton>
               </>
             )}
           </div>
