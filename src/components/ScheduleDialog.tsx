@@ -1,7 +1,7 @@
 import { useConvexMutation } from "@convex-dev/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { addMinutes, isBefore } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
@@ -38,20 +38,47 @@ function truncateContent(content: string, maxLength = 100): string {
 	return `${content.slice(0, maxLength)}...`;
 }
 
+function formatScheduledTime(timestamp: number): string {
+	return new Intl.DateTimeFormat("pt-BR", {
+		dateStyle: "medium",
+		timeStyle: "short",
+		timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+	}).format(new Date(timestamp));
+}
+
 export default function ScheduleDialog({
 	draft,
 	open,
 	onOpenChange,
 }: ScheduleDialogProps) {
+	const hasExistingSchedule = Boolean(draft.scheduledFor);
+
 	const [scheduledDate, setScheduledDate] = useState<Date | undefined>(
-		undefined,
+		draft.scheduledFor ? new Date(draft.scheduledFor) : undefined,
 	);
 	const [error, setError] = useState<string | null>(null);
 
+	// Reset state when draft changes or dialog opens
+	useEffect(() => {
+		if (open) {
+			setScheduledDate(
+				draft.scheduledFor ? new Date(draft.scheduledFor) : undefined,
+			);
+			setError(null);
+		}
+	}, [open, draft.scheduledFor]);
+
+	const scheduleMutation = useConvexMutation(api.drafts.schedule);
 	const { mutate: scheduleDraft, isPending } = useMutation({
-		mutationFn: useConvexMutation(api.drafts.schedule),
-		onSuccess: () => {
-			toast.success("Draft agendado!");
+		mutationFn: scheduleMutation,
+		onSuccess: (_data, variables) => {
+			if (variables.scheduledFor === undefined) {
+				toast.success("Agendamento removido");
+			} else {
+				toast.success(
+					`Draft agendado para ${formatScheduledTime(variables.scheduledFor)}!`,
+				);
+			}
 			setScheduledDate(undefined);
 			setError(null);
 			onOpenChange(false);
@@ -77,6 +104,13 @@ export default function ScheduleDialog({
 		});
 	};
 
+	const handleRemoveSchedule = () => {
+		scheduleDraft({
+			id: draft._id,
+			scheduledFor: undefined,
+		});
+	};
+
 	const handleOpenChange = (newOpen: boolean) => {
 		if (!newOpen) {
 			// Reset state when closing
@@ -90,7 +124,9 @@ export default function ScheduleDialog({
 		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Agendar Draft</DialogTitle>
+					<DialogTitle>
+						{hasExistingSchedule ? "Alterar Agendamento" : "Agendar Draft"}
+					</DialogTitle>
 					<DialogDescription>
 						{truncateContent(draft.content)}
 					</DialogDescription>
@@ -109,7 +145,17 @@ export default function ScheduleDialog({
 					{error && <p className="text-sm text-destructive">{error}</p>}
 				</div>
 
-				<DialogFooter>
+				<DialogFooter className="flex-col gap-2 sm:flex-row">
+					{hasExistingSchedule && (
+						<Button
+							variant="destructive"
+							onClick={handleRemoveSchedule}
+							disabled={isPending}
+							className="sm:mr-auto"
+						>
+							Remover Agendamento
+						</Button>
+					)}
 					<Button variant="ghost" onClick={() => handleOpenChange(false)}>
 						Cancelar
 					</Button>
@@ -117,7 +163,11 @@ export default function ScheduleDialog({
 						onClick={handleSchedule}
 						disabled={isPending || !scheduledDate}
 					>
-						{isPending ? "Agendando..." : "Agendar"}
+						{isPending
+							? "Salvando..."
+							: hasExistingSchedule
+								? "Atualizar"
+								: "Agendar"}
 					</Button>
 				</DialogFooter>
 			</DialogContent>

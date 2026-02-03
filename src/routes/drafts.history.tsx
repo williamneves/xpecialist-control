@@ -10,7 +10,6 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  Calendar,
   Twitter,
   Search,
   Filter,
@@ -53,7 +52,6 @@ const statusConfig = {
   pending: { label: 'Pendente', variant: 'outline' as const, icon: Clock },
   approved: { label: 'Aprovado', variant: 'default' as const, icon: CheckCircle },
   rejected: { label: 'Rejeitado', variant: 'destructive' as const, icon: XCircle },
-  scheduled: { label: 'Agendado', variant: 'secondary' as const, icon: Calendar },
   published: { label: 'Publicado', variant: 'default' as const, icon: Twitter },
 }
 
@@ -62,7 +60,6 @@ const statusOptions: { value: DraftStatus | 'all'; label: string }[] = [
   { value: 'pending', label: 'Pendentes' },
   { value: 'approved', label: 'Aprovados' },
   { value: 'rejected', label: 'Rejeitados' },
-  { value: 'scheduled', label: 'Agendados' },
   { value: 'published', label: 'Publicados' },
 ]
 
