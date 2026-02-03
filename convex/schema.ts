@@ -8,8 +8,7 @@ export default defineSchema({
       v.literal('pending'),
       v.literal('approved'),
       v.literal('rejected'),
-      v.literal('published'),
-      v.literal('scheduled')
+      v.literal('published')
     ),
     authorId: v.string(),
     authorName: v.optional(v.string()),
