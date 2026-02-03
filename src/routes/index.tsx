@@ -77,6 +77,14 @@ function formatDate(timestamp: number) {
 	}).format(new Date(timestamp));
 }
 
+function formatScheduledTime(timestamp: number): string {
+	return new Intl.DateTimeFormat("pt-BR", {
+		dateStyle: "medium",
+		timeStyle: "short",
+		timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+	}).format(new Date(timestamp));
+}
+
 function truncateContent(content: string, maxLength = 80) {
 	if (content.length <= maxLength) return content;
 	return `${content.slice(0, maxLength)}...`;
@@ -256,7 +264,10 @@ function Dashboard() {
 								{isLoading ? (
 									<div className="space-y-4">
 										{[...Array(5)].map((_, i) => (
-											<div key={`skeleton-${i}`} className="flex items-center gap-4">
+											<div
+												key={`skeleton-${i}`}
+												className="flex items-center gap-4"
+											>
 												<Skeleton className="h-4 w-full" />
 											</div>
 										))}
@@ -393,9 +404,14 @@ function Dashboard() {
 																	)}
 																{draft.status === "scheduled" &&
 																	draft.scheduledFor && (
-																		<span className="text-muted-foreground">
-																			{formatDate(draft.scheduledFor)}
-																		</span>
+																		<div className="flex items-center gap-2 text-muted-foreground">
+																			<Calendar className="h-4 w-4" />
+																			<span>
+																				{formatScheduledTime(
+																					draft.scheduledFor,
+																				)}
+																			</span>
+																		</div>
 																	)}
 																{draft.status === "published" &&
 																	draft.publishedAt && (
