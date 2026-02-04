@@ -6,6 +6,7 @@ import type { Doc } from '../../convex/_generated/dataModel'
 import { useState, useMemo } from 'react'
 import { SignedIn, SignedOut, SignInButton } from '@clerk/clerk-react'
 import {
+  Calendar,
   FileText,
   Clock,
   CheckCircle,
@@ -42,6 +43,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import DraftDetailDialog from '@/components/DraftDetailDialog'
+import { PageContainer } from '@/components/PageContainer'
 
 export const Route = createFileRoute('/drafts/history')({ component: DraftsHistory })
 
@@ -52,6 +54,7 @@ const statusConfig = {
   pending: { label: 'Pendente', variant: 'outline' as const, icon: Clock },
   approved: { label: 'Aprovado', variant: 'default' as const, icon: CheckCircle },
   rejected: { label: 'Rejeitado', variant: 'destructive' as const, icon: XCircle },
+  scheduled: { label: 'Agendado', variant: 'secondary' as const, icon: Calendar },
   published: { label: 'Publicado', variant: 'default' as const, icon: Twitter },
 }
 
@@ -60,6 +63,7 @@ const statusOptions: { value: DraftStatus | 'all'; label: string }[] = [
   { value: 'pending', label: 'Pendentes' },
   { value: 'approved', label: 'Aprovados' },
   { value: 'rejected', label: 'Rejeitados' },
+  { value: 'scheduled', label: 'Agendados' },
   { value: 'published', label: 'Publicados' },
 ]
 
@@ -125,7 +129,7 @@ function DraftsHistory() {
   return (
     <>
       <SignedIn>
-        <div className="container max-w-5xl mx-auto py-8 px-4">
+        <PageContainer>
           <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">Historico</h1>
@@ -319,10 +323,10 @@ function DraftsHistory() {
             open={sheetOpen}
             onOpenChange={handleSheetClose}
           />
-        </div>
+        </PageContainer>
       </SignedIn>
       <SignedOut>
-        <div className="container max-w-5xl mx-auto py-8 px-4 flex items-center justify-center min-h-[60vh]">
+        <PageContainer className="flex items-center justify-center min-h-[60vh]">
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <CardTitle>Acesso Restrito</CardTitle>
@@ -336,7 +340,7 @@ function DraftsHistory() {
               </SignInButton>
             </CardContent>
           </Card>
-        </div>
+        </PageContainer>
       </SignedOut>
     </>
   )

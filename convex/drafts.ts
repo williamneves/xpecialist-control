@@ -91,6 +91,7 @@ export const listAll = query({
       v.literal('pending'),
       v.literal('approved'),
       v.literal('rejected'),
+      v.literal('scheduled'),
       v.literal('published')
     )),
   },

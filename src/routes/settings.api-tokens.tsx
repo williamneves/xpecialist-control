@@ -28,6 +28,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { PageContainer } from "@/components/PageContainer";
 import {
 	Table,
 	TableBody,
@@ -190,7 +191,7 @@ function ApiTokensPage() {
 	return (
 		<>
 			<SignedIn>
-				<div className="container max-w-screen-lg py-8 px-4">
+				<PageContainer>
 					<div className="mb-8">
 						<h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
 							<Key className="h-8 w-8 text-[#1DA1F2]" />
@@ -511,10 +512,10 @@ function ApiTokensPage() {
 							</CardContent>
 						</Card>
 					</div>
-				</div>
+				</PageContainer>
 			</SignedIn>
 			<SignedOut>
-				<div className="container max-w-5xl mx-auto py-8 px-4 flex items-center justify-center min-h-[60vh]">
+				<PageContainer className="flex items-center justify-center min-h-[60vh]">
 					<Card className="w-full max-w-md">
 						<CardHeader className="text-center">
 							<CardTitle>Acesso Restrito</CardTitle>
@@ -530,7 +531,7 @@ function ApiTokensPage() {
 							</SignInButton>
 						</CardContent>
 					</Card>
-				</div>
+				</PageContainer>
 			</SignedOut>
 		</>
 	);

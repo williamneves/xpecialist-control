@@ -19,6 +19,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import DraftDetailDialog from "@/components/DraftDetailDialog";
 import { KeyboardHelpDialog } from "@/components/KeyboardHelpDialog";
+import { PageContainer } from "@/components/PageContainer";
 import { ReviewWizardDialog } from "@/components/ReviewWizardDialog";
 import { ThreadGroup } from "@/components/ThreadGroup";
 import { Badge } from "@/components/ui/badge";
@@ -66,6 +67,11 @@ const statusConfig = {
 		label: "Rejeitado",
 		variant: "destructive" as const,
 		icon: XCircle,
+	},
+	scheduled: {
+		label: "Agendado",
+		variant: "secondary" as const,
+		icon: Calendar,
 	},
 	published: {
 		label: "Publicado",
@@ -298,7 +304,7 @@ function Dashboard() {
 	// Show skeleton while Clerk auth is loading
 	if (!isLoaded) {
 		return (
-			<div className="container max-w-5xl mx-auto py-8 px-4">
+			<PageContainer>
 				<div className="flex items-center justify-between mb-8">
 					<div>
 						<Skeleton className="h-9 w-48 mb-2" />
@@ -307,14 +313,14 @@ function Dashboard() {
 					<Skeleton className="h-9 w-24" />
 				</div>
 				<Skeleton className="h-96 w-full rounded-lg" />
-			</div>
+			</PageContainer>
 		);
 	}
 
 	return (
 		<>
 			<SignedIn>
-				<div className="container max-w-5xl mx-auto py-8 px-4">
+				<PageContainer>
 					<div className="flex items-center justify-between mb-8">
 						<div>
 							<h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -591,10 +597,10 @@ function Dashboard() {
 						open={wizardOpen}
 						onOpenChange={setWizardOpen}
 					/>
-				</div>
+				</PageContainer>
 			</SignedIn>
 			<SignedOut>
-				<div className="container max-w-5xl mx-auto py-8 px-4 flex items-center justify-center min-h-[60vh]">
+				<PageContainer className="flex items-center justify-center min-h-[60vh]">
 					<Card className="w-full max-w-md">
 						<CardHeader className="text-center">
 							<CardTitle>Acesso Restrito</CardTitle>
@@ -610,7 +616,7 @@ function Dashboard() {
 							</SignInButton>
 						</CardContent>
 					</Card>
-				</div>
+				</PageContainer>
 			</SignedOut>
 		</>
 	);

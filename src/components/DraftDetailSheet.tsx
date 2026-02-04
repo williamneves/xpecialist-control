@@ -60,6 +60,11 @@ const statusConfig = {
 		variant: "destructive" as const,
 		icon: XCircle,
 	},
+	scheduled: {
+		label: "Agendado",
+		variant: "secondary" as const,
+		icon: Calendar,
+	},
 	published: { label: "Publicado", variant: "default" as const, icon: Twitter },
 };
 
