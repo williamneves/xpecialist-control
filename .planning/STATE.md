@@ -12,16 +12,16 @@ See: .planning/PROJECT.md (updated 2026-02-03)
 Phase: 6 of 6 (UI Polish)
 Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-04 - Completed 06-04-PLAN.md (Keyboard UX for Reject Form)
+Last activity: 2026-02-04 - Completed 05-02-PLAN.md (HTTP Endpoints)
 
-Progress: [███████████████████░] 80% (20/25 plans)
+Progress: [████████████████████] 84% (21/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 20
+- Total plans completed: 21
 - Average duration: 3m
-- Total execution time: 65m
+- Total execution time: 69m
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [███████████████████░] 80% (20
 | 02 | 2 | 4m | 2m |
 | 03 | 5 | 20m | 4m |
 | 04 | 3 | 6m | 2m |
-| 05 | 1 | 3m | 3m |
+| 05 | 2 | 7m | 4m |
 | 06 | 4 | 9m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 06-01 (2m), 05-01 (3m), 06-02 (3m), 06-03 (2m), 06-04 (2m)
+- Last 5 plans: 05-01 (3m), 06-02 (3m), 06-03 (2m), 06-04 (2m), 05-02 (4m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -86,6 +86,10 @@ Recent decisions affecting current work:
 - Auto-advance after approve/reject in wizard
 - 50ms delay for focus to ensure textarea rendered
 - Enter submits only when reason >= 10 chars (validation check)
+- Hono router over native Convex HTTP for middleware support
+- Auth on /api/v1/* keeps /api/health public
+- Permission format: drafts:read, drafts:create, drafts:approve, etc.
+- Draft authorId = api:{token_prefix} for API-created drafts
 
 ### Pending Todos
 
@@ -113,7 +117,7 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed 06-04-PLAN.md (Keyboard UX for Reject Form)
+Stopped at: Completed 05-02-PLAN.md (HTTP Endpoints)
 Resume file: None
 
 ## Phase 5 Progress (In Progress)
@@ -125,7 +129,15 @@ Resume file: None
 - CRUD mutations: createToken, revokeToken, listTokens
 - nanoid installed for secure token generation
 
-**Next: Plan 2 (05-02)** - HTTP Endpoints
+**Plan 2 (05-02) Complete:**
+- Hono HTTP router with convex-helpers HttpRouterWithHono
+- CORS middleware for /api/* with all origins
+- Bearer token auth middleware for /api/v1/*
+- Draft endpoints: list, create, get, approve, reject, schedule, publish
+- Token management endpoints: list, create, revoke
+- Permission-based access control per endpoint
+
+**Next: Plan 3 (05-03)** - Agent Workflow Endpoints
 
 ## Phase 6 Progress (In Progress)
 
