@@ -485,7 +485,7 @@ export default function DraftDetailDialog({
 				</div>
 
 				<DialogFooter className="border-t pt-4">
-					<div className="flex w-full gap-2">
+					<div className="flex w-full gap-2 flex-wrap sm:flex-nowrap">
 						{canDelete && (
 							<Button
 								variant="ghost"
@@ -522,10 +522,10 @@ export default function DraftDetailDialog({
 									size="sm"
 									onComplete={() => approveDraft({ id: draft._id })}
 									disabled={isApproving}
-									className="bg-[#1DA1F2] hover:bg-[#1DA1F2]/90"
+									className="bg-[#1DA1F2] hover:bg-[#1DA1F2]/90 whitespace-nowrap"
 									holdDuration={500}
 								>
-									<CheckCircle className="h-4 w-4 mr-1" />
+									<CheckCircle className="h-4 w-4 mr-1 shrink-0" />
 									{isApproving ? "Aprovando..." : "Aprovar"}
 								</HoldButton>
 							</>

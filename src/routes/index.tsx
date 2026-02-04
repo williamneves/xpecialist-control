@@ -416,17 +416,7 @@ function Dashboard() {
 													// Single draft - show as clickable card
 													<Card
 														key={group.drafts[0]._id}
-														className={cn(
-															"cursor-pointer hover:bg-muted/50 transition-colors",
-															// Approve armed: blue ring
-															isArmed &&
-																selectedDraft?._id === group.drafts[0]._id &&
-																"ring-2 ring-offset-2 ring-[#1DA1F2] animate-pulse",
-															// Reject armed: red/destructive ring
-															isRejectArmed &&
-																selectedDraft?._id === group.drafts[0]._id &&
-																"ring-2 ring-offset-2 ring-destructive animate-pulse",
-														)}
+														className="cursor-pointer hover:bg-muted/50 transition-colors"
 														onClick={() => {
 															const idx = groupedDrafts?.indexOf(group) ?? 0;
 															handleRowClick(group.drafts[0], idx);
