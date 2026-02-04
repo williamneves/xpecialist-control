@@ -1,4 +1,9 @@
-import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
+import {
+	SignedIn,
+	SignedOut,
+	SignInButton,
+	useAuth,
+} from "@clerk/clerk-react";
 import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -91,6 +96,7 @@ function truncateContent(content: string, maxLength = 80) {
 type DraftStatus = "pending" | "approved" | "rejected" | "published";
 
 function Dashboard() {
+	const { isLoaded } = useAuth();
 	const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null);
 	const [_selectedIndex, setSelectedIndex] = useState<number>(-1);
 	const [sheetOpen, setSheetOpen] = useState(false);
@@ -286,6 +292,22 @@ function Dashboard() {
 		activeTab === "pending"
 			? (groupedDrafts?.length ?? 0)
 			: (drafts?.length ?? 0);
+
+	// Show skeleton while Clerk auth is loading
+	if (!isLoaded) {
+		return (
+			<div className="container max-w-5xl mx-auto py-8 px-4">
+				<div className="flex items-center justify-between mb-8">
+					<div>
+						<Skeleton className="h-9 w-48 mb-2" />
+						<Skeleton className="h-5 w-72" />
+					</div>
+					<Skeleton className="h-9 w-24" />
+				</div>
+				<Skeleton className="h-96 w-full rounded-lg" />
+			</div>
+		);
+	}
 
 	return (
 		<>
