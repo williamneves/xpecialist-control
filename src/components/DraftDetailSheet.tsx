@@ -27,6 +27,7 @@ import {
 	SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import ScheduleDialog from "./ScheduleDialog";
@@ -38,6 +39,10 @@ interface DraftDetailSheetProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	onActionComplete?: (action: "approve" | "reject") => void;
+	isArmed?: boolean;
+	isRejectArmed?: boolean;
+	initialShowRejectForm?: boolean;
+	initialEditMode?: boolean;
 }
 
 const statusConfig = {
@@ -67,6 +72,10 @@ export default function DraftDetailSheet({
 	open,
 	onOpenChange,
 	onActionComplete,
+	isArmed = false,
+	isRejectArmed = false,
+	initialShowRejectForm = false,
+	initialEditMode = false,
 }: DraftDetailSheetProps) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedContent, setEditedContent] = useState("");
@@ -81,6 +90,19 @@ export default function DraftDetailSheet({
 			setShowScheduleDialog(false);
 		}
 	}, [open, draft]);
+
+	// Handle initial states from keyboard shortcuts
+	useEffect(() => {
+		if (open && draft) {
+			if (initialShowRejectForm && draft.status === "pending") {
+				setShowRejectForm(true);
+			}
+			if (initialEditMode && draft.status !== "published") {
+				setEditedContent(draft.content);
+				setIsEditing(true);
+			}
+		}
+	}, [open, draft, initialShowRejectForm, initialEditMode]);
 
 	const { mutate: approveDraft, isPending: isApproving } = useMutation({
 		mutationFn: useConvexMutation(api.drafts.approve),
@@ -145,8 +167,7 @@ export default function DraftDetailSheet({
 	const canEdit = draft.status !== "published";
 	const canApprove = draft.status === "pending";
 	const canDelete = draft.status !== "published";
-	const canSchedule =
-		draft.status === "pending" || draft.status === "approved";
+	const canSchedule = draft.status === "pending" || draft.status === "approved";
 
 	const handleStartEdit = () => {
 		setEditedContent(draft.content);
@@ -200,7 +221,14 @@ export default function DraftDetailSheet({
 
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
-			<SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+			<SheetContent
+				side="right"
+				className={cn(
+					"w-full sm:max-w-lg overflow-y-auto",
+					isArmed && "ring-2 ring-inset ring-[#1DA1F2]",
+					isRejectArmed && "ring-2 ring-inset ring-destructive",
+				)}
+			>
 				<SheetHeader>
 					<div className="flex items-center gap-2">
 						<Badge variant={status.variant} className="gap-1">
@@ -216,6 +244,18 @@ export default function DraftDetailSheet({
 						Criado em {formatDate(draft.createdAt)}
 					</SheetDescription>
 				</SheetHeader>
+
+				{/* Armed state banners */}
+				{isArmed && (
+					<div className="bg-[#1DA1F2]/10 text-[#1DA1F2] text-sm px-4 py-2 rounded-md mt-4 animate-pulse">
+						Pressione Alt+A novamente para confirmar aprovacao
+					</div>
+				)}
+				{isRejectArmed && (
+					<div className="bg-destructive/10 text-destructive text-sm px-4 py-2 rounded-md mt-4 animate-pulse">
+						Alt+R para rejeitar | Alt+Y para motivo personalizado
+					</div>
+				)}
 
 				<div className="flex-1 space-y-6 px-4 py-6">
 					{/* Content */}

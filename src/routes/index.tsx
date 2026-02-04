@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/clerk-react";
-import { convexQuery } from "@convex-dev/react-query";
-import { useQuery } from "@tanstack/react-query";
+import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
 	Calendar,
@@ -10,9 +10,10 @@ import {
 	RefreshCw,
 	XCircle,
 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import DraftDetailSheet from "@/components/DraftDetailSheet";
+import { KeyboardHelpDialog } from "@/components/KeyboardHelpDialog";
 import { ThreadGroup } from "@/components/ThreadGroup";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { cn } from "@/lib/utils";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 
@@ -89,9 +92,11 @@ type DraftStatus = "pending" | "approved" | "rejected" | "published";
 
 function Dashboard() {
 	const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null);
-	const [, setSelectedIndex] = useState<number>(-1);
+	const [_selectedIndex, setSelectedIndex] = useState<number>(-1);
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState<DraftStatus>("pending");
+	const [showRejectForm, setShowRejectForm] = useState(false);
+	const [startEditMode, setStartEditMode] = useState(false);
 
 	// Grouped query for pending tab (threads + singles)
 	const {
@@ -120,6 +125,100 @@ function Dashboard() {
 		activeTab === "pending" ? isRefetchingGrouped : isRefetchingFlat;
 	const refetch = activeTab === "pending" ? refetchGrouped : refetchFlat;
 
+	// Mutations for keyboard-triggered actions
+	const { mutate: approveMutation } = useMutation({
+		mutationFn: useConvexMutation(api.drafts.approve),
+		onSuccess: () => {
+			toast.success("Draft aprovado!");
+			handleActionComplete("approve");
+		},
+		onError: (error) => toast.error(`Erro: ${error.message}`),
+	});
+
+	const { mutate: rejectMutation } = useMutation({
+		mutationFn: useConvexMutation(api.drafts.reject),
+		onSuccess: () => {
+			toast.success("Draft rejeitado");
+			handleActionComplete("reject");
+		},
+		onError: (error) => toast.error(`Erro: ${error.message}`),
+	});
+
+	// Flat list of navigable drafts (singles only from pending view)
+	const flatDraftList = useMemo(() => {
+		if (activeTab !== "pending" || !groupedDrafts) return [];
+		return groupedDrafts
+			.filter((group) => group.type === "single")
+			.map((group) => group.drafts[0]);
+	}, [activeTab, groupedDrafts]);
+
+	// Keyboard action handlers
+	const handleKeyboardApprove = () => {
+		if (selectedDraft && selectedDraft.status === "pending") {
+			approveMutation({ id: selectedDraft._id });
+		}
+	};
+
+	const handleKeyboardRejectQuick = () => {
+		if (selectedDraft && selectedDraft.status === "pending") {
+			rejectMutation({
+				id: selectedDraft._id,
+				reason: "Rejeitado via atalho de teclado",
+			});
+		}
+	};
+
+	const handleKeyboardRejectWithReason = () => {
+		if (selectedDraft && selectedDraft.status === "pending") {
+			setShowRejectForm(true);
+			setSheetOpen(true);
+		}
+	};
+
+	const handleKeyboardEdit = () => {
+		if (selectedDraft && selectedDraft.status !== "published") {
+			setStartEditMode(true);
+			setSheetOpen(true);
+		}
+	};
+
+	const handleNavigateNext = () => {
+		if (flatDraftList.length === 0) return;
+		const currentIndex = selectedDraft
+			? flatDraftList.findIndex((d) => d._id === selectedDraft._id)
+			: -1;
+		const nextIndex =
+			currentIndex < flatDraftList.length - 1 ? currentIndex + 1 : currentIndex;
+		if (nextIndex >= 0 && nextIndex < flatDraftList.length) {
+			setSelectedDraft(flatDraftList[nextIndex]);
+			setSelectedIndex(nextIndex);
+		}
+	};
+
+	const handleNavigatePrev = () => {
+		if (flatDraftList.length === 0) return;
+		const currentIndex = selectedDraft
+			? flatDraftList.findIndex((d) => d._id === selectedDraft._id)
+			: -1;
+		const prevIndex = currentIndex > 0 ? currentIndex - 1 : 0;
+		if (prevIndex >= 0 && prevIndex < flatDraftList.length) {
+			setSelectedDraft(flatDraftList[prevIndex]);
+			setSelectedIndex(prevIndex);
+		}
+	};
+
+	// Use keyboard shortcuts hook
+	const { helpOpen, setHelpOpen, isArmed, isRejectArmed } =
+		useKeyboardShortcuts({
+			selectedDraft,
+			onApprove: handleKeyboardApprove,
+			onRejectQuick: handleKeyboardRejectQuick,
+			onRejectWithReason: handleKeyboardRejectWithReason,
+			onEdit: handleKeyboardEdit,
+			onNavigateNext: handleNavigateNext,
+			onNavigatePrev: handleNavigatePrev,
+		});
+
 	const handleRowClick = (draft: Draft, index: number) => {
 		setSelectedDraft(draft);
 		setSelectedIndex(index);
@@ -130,6 +229,8 @@ function Dashboard() {
 		setSheetOpen(open);
 		if (!open) {
 			setTimeout(() => setSelectedDraft(null), 300);
+			setShowRejectForm(false);
+			setStartEditMode(false);
 		}
 	};
 
@@ -274,7 +375,17 @@ function Dashboard() {
 													// Single draft - show as clickable card
 													<Card
 														key={group.drafts[0]._id}
-														className="cursor-pointer hover:bg-muted/50 transition-colors"
+														className={cn(
+															"cursor-pointer hover:bg-muted/50 transition-colors",
+															// Approve armed: blue ring
+															isArmed &&
+																selectedDraft?._id === group.drafts[0]._id &&
+																"ring-2 ring-offset-2 ring-[#1DA1F2] animate-pulse",
+															// Reject armed: red/destructive ring
+															isRejectArmed &&
+																selectedDraft?._id === group.drafts[0]._id &&
+																"ring-2 ring-offset-2 ring-destructive animate-pulse",
+														)}
 														onClick={() => {
 															const idx = groupedDrafts?.indexOf(group) ?? 0;
 															handleRowClick(group.drafts[0], idx);
@@ -432,7 +543,13 @@ function Dashboard() {
 						open={sheetOpen}
 						onOpenChange={handleSheetClose}
 						onActionComplete={handleActionComplete}
+						isArmed={isArmed}
+						isRejectArmed={isRejectArmed}
+						initialShowRejectForm={showRejectForm}
+						initialEditMode={startEditMode}
 					/>
+
+					<KeyboardHelpDialog open={helpOpen} onOpenChange={setHelpOpen} />
 				</div>
 			</SignedIn>
 			<SignedOut>
