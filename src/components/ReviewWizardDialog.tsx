@@ -7,7 +7,7 @@ import {
 	ChevronRight,
 	XCircle,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -116,6 +116,28 @@ export function ReviewWizardDialog({
 		rejectDraft({ id: currentDraft._id, reason: trimmedReason });
 	};
 
+	// Auto-focus textarea when reject form opens
+	useEffect(() => {
+		if (showRejectForm) {
+			const timer = setTimeout(() => {
+				textareaRef.current?.focus();
+			}, 50);
+			return () => clearTimeout(timer);
+		}
+	}, [showRejectForm]);
+
+	// Handle Enter key submission in reject form
+	const handleRejectKeyDown = (
+		e: React.KeyboardEvent<HTMLTextAreaElement>,
+	) => {
+		if (e.key === "Enter" && !e.shiftKey) {
+			e.preventDefault();
+			if (rejectionReason.trim().length >= 10) {
+				handleReject();
+			}
+		}
+	};
+
 	if (!currentDraft) return null;
 
 	return (
@@ -182,6 +204,7 @@ export function ReviewWizardDialog({
 										setRejectionReason(e.target.value);
 										setRejectionError("");
 									}}
+									onKeyDown={handleRejectKeyDown}
 									placeholder="Descreva o motivo (minimo 10 caracteres)..."
 									className="min-h-20 resize-none"
 								/>
