@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npx convex deploy --cmd 'bun run build'",
+  "framework": null,
+  "installCommand": "bun install"
+}
