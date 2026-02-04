@@ -19,6 +19,7 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import DraftDetailDialog from "@/components/DraftDetailDialog";
 import { KeyboardHelpDialog } from "@/components/KeyboardHelpDialog";
+import { ReviewWizardDialog } from "@/components/ReviewWizardDialog";
 import { ThreadGroup } from "@/components/ThreadGroup";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -103,6 +104,7 @@ function Dashboard() {
 	const [activeTab, setActiveTab] = useState<DraftStatus>("pending");
 	const [showRejectForm, setShowRejectForm] = useState(false);
 	const [startEditMode, setStartEditMode] = useState(false);
+	const [wizardOpen, setWizardOpen] = useState(false);
 
 	// Grouped query for pending tab (threads + singles)
 	const {
@@ -335,10 +337,21 @@ function Dashboard() {
 
 					<Card>
 						<CardHeader>
-							<CardTitle className="flex items-center gap-2">
-								<FileText className="h-5 w-5 text-[#1DA1F2]" />
-								Drafts
-							</CardTitle>
+							<div className="flex items-center justify-between">
+								<CardTitle className="flex items-center gap-2">
+									<FileText className="h-5 w-5 text-[#1DA1F2]" />
+									Drafts
+								</CardTitle>
+								{activeTab === "pending" && flatDraftList.length > 0 && (
+									<Button
+										variant="outline"
+										size="sm"
+										onClick={() => setWizardOpen(true)}
+									>
+										Revisar Todos
+									</Button>
+								)}
+							</div>
 							<CardDescription>
 								{activeTab === "pending"
 									? `${itemCount} item(s) pendente(s)`
@@ -572,6 +585,12 @@ function Dashboard() {
 					/>
 
 					<KeyboardHelpDialog open={helpOpen} onOpenChange={setHelpOpen} />
+
+					<ReviewWizardDialog
+						drafts={flatDraftList}
+						open={wizardOpen}
+						onOpenChange={setWizardOpen}
+					/>
 				</div>
 			</SignedIn>
 			<SignedOut>
