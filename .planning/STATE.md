@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 6 (UI Polish) - Complete
+**Current focus:** Phase 6 (UI Polish) - In Progress
 
 ## Current Position
 
 Phase: 6 of 6 (UI Polish)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-02-04 - Completed 06-03-PLAN.md (Review Wizard Dialog)
+Plan: 4 of 5 in current phase
+Status: In progress
+Last activity: 2026-02-04 - Completed 06-04-PLAN.md (Keyboard UX for Reject Form)
 
-Progress: [███████████████████] 76% (19/25 plans)
+Progress: [███████████████████░] 80% (20/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 19
+- Total plans completed: 20
 - Average duration: 3m
-- Total execution time: 63m
+- Total execution time: 65m
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [███████████████████] 76% (19/25
 | 03 | 5 | 20m | 4m |
 | 04 | 3 | 6m | 2m |
 | 05 | 1 | 3m | 3m |
-| 06 | 3 | 7m | 2m |
+| 06 | 4 | 9m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (2m), 06-01 (2m), 05-01 (3m), 06-02 (3m), 06-03 (2m)
+- Last 5 plans: 06-01 (2m), 05-01 (3m), 06-02 (3m), 06-03 (2m), 06-04 (2m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -84,6 +84,8 @@ Recent decisions affecting current work:
 - Wizard progress dots with ring indicator for current position
 - Prevent backdrop close in wizard (onInteractOutside e.preventDefault())
 - Auto-advance after approve/reject in wizard
+- 50ms delay for focus to ensure textarea rendered
+- Enter submits only when reason >= 10 chars (validation check)
 
 ### Pending Todos
 
@@ -111,7 +113,7 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed 06-03-PLAN.md (Review Wizard Dialog)
+Stopped at: Completed 06-04-PLAN.md (Keyboard UX for Reject Form)
 Resume file: None
 
 ## Phase 5 Progress (In Progress)
@@ -125,7 +127,7 @@ Resume file: None
 
 **Next: Plan 2 (05-02)** - HTTP Endpoints
 
-## Phase 6 Progress (Complete)
+## Phase 6 Progress (In Progress)
 
 **Plan 1 (06-01) Complete:**
 - Dashboard container centered with max-w-5xl mx-auto
@@ -143,3 +145,11 @@ Resume file: None
 - Progress dots with ring indicator for current position
 - Auto-advance on approve/reject actions
 - "Revisar Todos" button visible only in pending tab with drafts
+
+**Plan 4 (06-04) Complete:**
+- Reject textarea auto-focuses when showRejectForm becomes true
+- Enter key submits rejection if reason >= 10 chars
+- Shift+Enter creates newline in textarea
+- Full keyboard rejection flow enabled
+
+**Next: Plan 5 (06-05)** - [Final UI Polish]
