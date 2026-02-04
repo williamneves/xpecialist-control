@@ -14,7 +14,7 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
 - [x] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
 - [x] **Phase 3: Scheduling** - Schedule approved drafts for future publication
 - [x] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
-- [ ] **Phase 5: Agent API** - HTTP endpoints + token auth for AI agents to create/manage drafts
+- [x] **Phase 5: Agent API** - HTTP endpoints + token auth for AI agents to create/manage drafts
 - [ ] **Phase 6: UI Polish** - Layout, modal, contraste, wizard mode
 
 ## Phase Details
@@ -106,10 +106,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Schema + token utilities + auth validation
-- [ ] 05-02-PLAN.md — HTTP router + draft endpoints
-- [ ] 05-03-PLAN.md — Token endpoints + token management UI
-- [ ] 05-04-PLAN.md — OpenAPI spec + human verification
+- [x] 05-01-PLAN.md — Schema + token utilities + auth validation
+- [x] 05-02-PLAN.md — HTTP router + draft endpoints
+- [x] 05-03-PLAN.md — Token endpoints + token management UI
+- [x] 05-04-PLAN.md — OpenAPI spec + human verification
 
 ### Phase 6: UI Polish
 **Goal**: Improve layout, replace Sheet with Dialog, enhance contrast, add wizard review mode
@@ -149,5 +149,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
 | 3. Scheduling | 5/5 | Complete | 2026-02-03 |
 | 4. Keyboard Shortcuts | 3/3 | Complete | 2026-02-04 |
-| 5. Agent API | 0/4 | Planned | - |
+| 5. Agent API | 4/4 | Complete | 2026-02-04 |
 | 6. UI Polish | 0/5 | Planned | - |
