@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 4 (Keyboard Shortcuts) - Complete
+**Current focus:** Phase 6 (UI Polish) - In Progress
 
 ## Current Position
 
-Phase: 4 of 6 (Keyboard Shortcuts)
-Plan: 3 of 3 in current phase (Phase 4 complete)
-Status: Phase complete
-Last activity: 2026-02-04 - Completed 04-03-PLAN.md (Dashboard Integration)
+Phase: 6 of 6 (UI Polish)
+Plan: 1 of 5 in current phase
+Status: In progress
+Last activity: 2026-02-04 - Completed 06-01-PLAN.md (Layout and Dark Mode)
 
-Progress: [██████████████░] 58% (14/24 plans)
+Progress: [███████████████░] 62% (15/24 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 15
 - Average duration: 4m
-- Total execution time: 51m
+- Total execution time: 53m
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [██████████████░] 58% (14/24 plans)
 | 02 | 2 | 4m | 2m |
 | 03 | 5 | 20m | 4m |
 | 04 | 2 | 4m | 2m |
+| 06 | 1 | 2m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (2m), 03-04 (4m), 03-05 (7m), 04-01 (2m), 04-02 (2m)
+- Last 5 plans: 03-04 (4m), 03-05 (7m), 04-01 (2m), 04-02 (2m), 06-01 (2m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -71,13 +72,17 @@ Recent decisions affecting current work:
 - Unschedule via passing undefined to schedule mutation
 - Independent armed states for approve/reject shortcuts (can be true simultaneously)
 - 5-second timeout for armed state auto-reset
+- 1024px max-width (max-w-5xl) for better readability on wide screens
+- Auth skeleton matches dashboard layout structure
+- Dark mode contrast: muted-foreground 0.75, border 0.35, card 0.18
 
 ### Pending Todos
 
-3 todos in `.planning/todos/pending/`:
-- Layout centralizado com max-width (ui)
+2 todos in `.planning/todos/pending/`:
 - Simplificar botao approve no drawer (ui)
 - Thread composition - multiplas mensagens (ui)
+
+Note: Layout centralizado com max-width addressed in 06-01
 
 ### Blockers/Concerns
 
@@ -88,7 +93,7 @@ None.
 From Phase 2 verification, logged for future consideration:
 - Thread composition (multiple messages per thread) - future phase
 - Verification drawer button wrapping - UI polish
-- App layout centering with max-width - UI polish
+- App layout centering with max-width - ADDRESSED in 06-01
 
 ### Roadmap Evolution
 
@@ -97,33 +102,15 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed Phase 4 (Keyboard Shortcuts)
+Stopped at: Completed 06-01-PLAN.md (Layout and Dark Mode)
 Resume file: None
 
-## Phase 4 Progress (Complete)
+## Phase 6 Progress (In Progress)
 
-**Plan 1 (04-01) Complete:**
-- react-hotkeys-hook v5.2.4 installed
-- useKeyboardShortcuts hook created (208 lines)
-- Double-tap armed pattern for approve (Alt+A)
-- Double-tap armed pattern for reject (Alt+R)
-- Alt+Y for reject-with-reason while armed
-- Alt+E for edit, j/k for navigation, shift+/ for help
-- Armed states independent with 5-second timeouts
+**Plan 1 (06-01) Complete:**
+- Dashboard container centered with max-w-5xl mx-auto
+- Auth loading skeleton shows while Clerk auth state loads
+- Dark mode contrast improved: muted-foreground 0.75, border 0.35, card 0.18
+- Addresses "Layout centralizado com max-width" todo
 
-**Plan 2 (04-02) Complete:**
-- KeyboardHelpDialog component created (97 lines)
-- Flat list of all 8 keyboard shortcuts
-- Kbd component with muted bg, border, mono font
-- Chord pattern display (Alt+R+Alt+Y)
-- Portuguese labels consistent with app
-
-**Plan 3 (04-03) Complete:**
-- useKeyboardShortcuts hook integrated into Dashboard
-- All handlers wired (approve, reject, edit, navigation)
-- KeyboardHelpDialog connected via ? key
-- Armed state visuals (blue ring approve, red ring reject)
-- j/k navigation between pending singles
-- Human verified all shortcuts working
-
-**Ready for Phase 6:** UI Polish
+**Next: Plan 2 (06-02)** - Approve Button Simplification
