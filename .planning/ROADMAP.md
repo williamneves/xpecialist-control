@@ -1,153 +1,36 @@
 # Roadmap: Xpecialist Control Dashboard
 
-## Overview
+## Milestones
 
-This roadmap delivers a high-volume review dashboard for AI-generated tweet drafts. Phase 1 establishes the authenticated core review queue with thread grouping and status filtering. Phase 2 adds editing capabilities and the revision flow for rejected drafts. Phase 3 delivers scheduling for approved content. Phase 4 completes the experience with keyboard shortcuts for power users.
+- ✅ **v1.0 MVP** — Phases 1-6 (shipped 2026-02-04)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3, 4): Planned milestone work
-- Decimal phases (e.g., 2.1): Urgent insertions (marked with INSERTED)
+<details>
+<summary>✅ v1.0 MVP (Phases 1-6) — SHIPPED 2026-02-04</summary>
 
-- [ ] **Phase 1: Core Review Queue** - Authenticated draft queue with thread grouping and status views
-- [x] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
-- [x] **Phase 3: Scheduling** - Schedule approved drafts for future publication
-- [x] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
-- [x] **Phase 5: Agent API** - HTTP endpoints + token auth for AI agents to create/manage drafts
-- [ ] **Phase 6: UI Polish** - Layout, modal, contraste, wizard mode
+- [x] Phase 1: Core Review Queue (6/6 plans) — completed 2026-02-03
+- [x] Phase 2: Editing and Revision (2/2 plans) — completed 2026-02-03
+- [x] Phase 3: Scheduling (5/5 plans) — completed 2026-02-03
+- [x] Phase 4: Keyboard Shortcuts (3/3 plans) — completed 2026-02-04
+- [x] Phase 5: Agent API (4/4 plans) — completed 2026-02-04
+- [x] Phase 6: UI Polish (5/5 plans) — completed 2026-02-04
 
-## Phase Details
+See: `.planning/milestones/v1.0-ROADMAP.md` for full details.
 
-### Phase 1: Core Review Queue
-**Goal**: User can authenticate, see pending drafts grouped by thread, approve/reject with feedback, and filter by status
-**Depends on**: Nothing (first phase)
-**Requirements**: AUTH-01, AUTH-02, QUEUE-01, QUEUE-02, QUEUE-03, QUEUE-04, QUEUE-05, QUEUE-06, THRD-01, THRD-02, THRD-03, STAT-01, STAT-02, STAT-03
-**Success Criteria** (what must be TRUE):
-  1. User must authenticate via Clerk before accessing dashboard
-  2. User sees pending drafts listed newest-first with character counts
-  3. User can approve a draft with confirmation gesture
-  4. User can reject a draft with required reason
-  5. After approve/reject action, user auto-advances to next pending draft
-  6. Threads display as grouped units and approve/reject actions apply to entire thread
-  7. User can filter drafts by status (pending/approved/rejected/published) via tabs
-**Plans**: 6 plans
-
-Plans:
-- [ ] 01-01-PLAN.md — Auth protection + required rejection reason
-- [ ] 01-02-PLAN.md — Thread grouping backend (query + bulk mutations)
-- [ ] 01-03-PLAN.md — Hold-to-confirm gesture for approve
-- [ ] 01-04-PLAN.md — Status tabs + auto-advance
-- [ ] 01-05-PLAN.md — Thread UI + bulk actions integration
-- [ ] 01-06-PLAN.md — Human verification checkpoint
-
-### Phase 2: Editing and Revision
-**Goal**: User can edit draft content before approval and revise rejected drafts for resubmission
-**Depends on**: Phase 1
-**Requirements**: EDIT-01, EDIT-02, EDIT-03, REV-01, REV-02, REV-03
-**Success Criteria** (what must be TRUE):
-  1. User can edit draft content before approving
-  2. Character count updates live as user edits
-  3. User can cancel edit to revert changes
-  4. Rejected drafts appear in rejected status view with rejection reason visible
-  5. User can edit rejected draft content and save to resubmit (status returns to pending)
-**Plans**: 2 plans
-
-Plans:
-- [x] 02-01-PLAN.md — Resubmit mutation + UI wiring for rejected drafts
-- [x] 02-02-PLAN.md — Human verification checkpoint
-
-### Phase 3: Scheduling
-**Goal**: User can schedule pending or approved drafts for future publication times
-**Depends on**: Phase 1
-**Requirements**: SCHED-01, SCHED-02, SCHED-03
-**Success Criteria** (what must be TRUE):
-  1. User can schedule a pending or approved draft for a specific future date/time
-  2. Date/time picker displays times in user's local timezone
-  3. Scheduled time visible as property on drafts (not a separate status)
-**Plans**: 5 plans
-
-Plans:
-- [x] 03-01-PLAN.md — DateTimePicker component + dependencies
-- [x] 03-02-PLAN.md — ScheduleDialog + DraftDetailSheet integration
-- [x] 03-03-PLAN.md — Scheduled time display in tabs
-- [x] 03-04-PLAN.md — Human verification checkpoint
-- [x] 03-05-PLAN.md — Gap closure: scheduledFor as property, not status
-
-### Phase 4: Keyboard Shortcuts
-**Goal**: Power users can review drafts rapidly using keyboard-only navigation
-**Depends on**: Phase 1, Phase 2
-**Requirements**: KEY-01, KEY-02, KEY-03, KEY-04, KEY-05, KEY-06
-**Success Criteria** (what must be TRUE):
-  1. User can press Alt+A to approve current draft (double-tap confirmation)
-  2. User can press Alt+R to quick-reject with default reason
-  3. User can press j/k to navigate between drafts
-  4. User can press Alt+E to enter edit mode
-  5. User can press Escape to close dialogs and cancel actions
-  6. Keyboard shortcuts are disabled when user is typing in an input field
-**Plans**: 3 plans
-
-Plans:
-- [x] 04-01-PLAN.md — Install react-hotkeys-hook + create useKeyboardShortcuts hook
-- [x] 04-02-PLAN.md — Create KeyboardHelpDialog component
-- [x] 04-03-PLAN.md — Integrate shortcuts into Dashboard + human verification
-
-### Phase 5: Agent API
-**Goal**: AI agents can interact programmatically via HTTP endpoints with token-based authentication
-**Depends on**: Phase 1
-**Requirements**: API-01, API-02, API-03, API-04, API-05
-**Success Criteria** (what must be TRUE):
-  1. HTTP endpoints exist for all draft operations (create, list, approve, reject, schedule, markPublished)
-  2. API tokens can be generated with description (identify which bot/human)
-  3. Tokens have configurable permissions (including "can generate other tokens")
-  4. UI exists to manage tokens (create, view, revoke, set permissions)
-  5. OpenAPI spec is auto-generated and accessible for AI consumption
-  6. All API calls are authenticated via Bearer token
-**Plans**: 4 plans
-
-Plans:
-- [x] 05-01-PLAN.md — Schema + token utilities + auth validation
-- [x] 05-02-PLAN.md — HTTP router + draft endpoints
-- [x] 05-03-PLAN.md — Token endpoints + token management UI
-- [x] 05-04-PLAN.md — OpenAPI spec + human verification
-
-### Phase 6: UI Polish
-**Goal**: Improve layout, replace Sheet with Dialog, enhance contrast, add wizard review mode
-**Depends on**: Phase 4
-**Requirements**: UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08
-**Success Criteria** (what must be TRUE):
-  1. Container uses max-w-5xl and is centralized with mx-auto
-  2. DraftDetailSheet replaced with DraftDetailDialog (modal centralizado)
-  3. Dark mode contrast improved (tabs, borders, backgrounds)
-  4. "Revisar Todos" wizard button exists and opens sequential review modal
-  5. Alt+Y focuses reject reason input automatically
-  6. Enter in reject input submits and advances to next draft
-  7. Auth loading state shows proper skeleton/spinner
-  8. Approve button text simplified (no wrapping issues)
-**Closes Todos:**
-  - layout-centralizado (mx-auto + max-width)
-  - button-wrapping-drawer (simplify approve button)
-**Deferred:**
-  - thread-composition (requires backend changes, separate phase)
-**Plans**: 5 plans
-
-Plans:
-- [ ] 06-01-PLAN.md — Layout + dark mode contrast + auth skeleton
-- [ ] 06-02-PLAN.md — Sheet to Dialog migration + simplified button text
-- [ ] 06-03-PLAN.md — ReviewWizardDialog (Revisar Todos wizard mode)
-- [ ] 06-04-PLAN.md — Keyboard UX (Alt+Y focus, Enter submit)
-- [ ] 06-05-PLAN.md — Human verification checkpoint
+</details>
 
 ## Progress
 
-**Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Core Review Queue | v1.0 | 6/6 | Complete | 2026-02-03 |
+| 2. Editing and Revision | v1.0 | 2/2 | Complete | 2026-02-03 |
+| 3. Scheduling | v1.0 | 5/5 | Complete | 2026-02-03 |
+| 4. Keyboard Shortcuts | v1.0 | 3/3 | Complete | 2026-02-04 |
+| 5. Agent API | v1.0 | 4/4 | Complete | 2026-02-04 |
+| 6. UI Polish | v1.0 | 5/5 | Complete | 2026-02-04 |
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Core Review Queue | 0/6 | Planned | - |
-| 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
-| 3. Scheduling | 5/5 | Complete | 2026-02-03 |
-| 4. Keyboard Shortcuts | 3/3 | Complete | 2026-02-04 |
-| 5. Agent API | 4/4 | Complete | 2026-02-04 |
-| 6. UI Polish | 0/5 | Planned | - |
+---
+
+*v1.0 shipped. Run `/gsd:new-milestone` to start v1.1 planning.*

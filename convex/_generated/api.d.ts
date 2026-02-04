@@ -8,7 +8,14 @@
  * @module
  */
 
+import type * as api_drafts from "../api/drafts.js";
+import type * as api_tokens from "../api/tokens.js";
 import type * as drafts from "../drafts.js";
+import type * as http from "../http.js";
+import type * as lib_apiToken from "../lib/apiToken.js";
+import type * as lib_auth from "../lib/auth.js";
+import type * as lib_types from "../lib/types.js";
+import type * as tokens from "../tokens.js";
 
 import type {
   ApiFromModules,
@@ -17,7 +24,14 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  "api/drafts": typeof api_drafts;
+  "api/tokens": typeof api_tokens;
   drafts: typeof drafts;
+  http: typeof http;
+  "lib/apiToken": typeof lib_apiToken;
+  "lib/auth": typeof lib_auth;
+  "lib/types": typeof lib_types;
+  tokens: typeof tokens;
 }>;
 
 /**

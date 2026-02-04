@@ -34,10 +34,11 @@ Power users can review drafts rapidly using keyboard-only navigation. Covers key
 ### Action behavior
 - Double-tap pattern for approve: first Alt+a arms (visual ring/highlight), second Alt+a confirms
 - Armed state lasts 5 seconds before auto-reset
-- Alt+r quick-rejects with default reason ("Rejected via keyboard")
-- Alt+e opens reject dialog for custom reason
-- Auto-advance to next draft after approve/reject (same as button behavior)
+- Reject shortcuts (chord pattern): Alt+r arms, then:
+  - Alt+r again = quick-reject with default reason ("Rejeitado via atalho de teclado")
+  - Alt+y = reject with custom reason (opens dialog)
 - Alt+e for edit is single-press, no confirmation needed
+- Auto-advance to next draft after approve/reject (same as button behavior)
 
 ### Claude's Discretion
 - Exact visual style for "armed" state indicator
