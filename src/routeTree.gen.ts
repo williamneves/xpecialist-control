@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsApiTokensRouteImport } from './routes/settings.api-tokens'
 import { Route as DraftsNewRouteImport } from './routes/drafts.new'
 import { Route as DraftsHistoryRouteImport } from './routes/drafts.history'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
@@ -30,6 +31,11 @@ import { Route as DemoStartSsrDataOnlyRouteImport } from './routes/demo/start.ss
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsApiTokensRoute = SettingsApiTokensRouteImport.update({
+  id: '/settings/api-tokens',
+  path: '/settings/api-tokens',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DraftsNewRoute = DraftsNewRouteImport.update({
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/drafts/history': typeof DraftsHistoryRoute
   '/drafts/new': typeof DraftsNewRoute
+  '/settings/api-tokens': typeof SettingsApiTokensRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/form/address': typeof DemoFormAddressRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/drafts/history': typeof DraftsHistoryRoute
   '/drafts/new': typeof DraftsNewRoute
+  '/settings/api-tokens': typeof SettingsApiTokensRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/form/address': typeof DemoFormAddressRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/drafts/history': typeof DraftsHistoryRoute
   '/drafts/new': typeof DraftsNewRoute
+  '/settings/api-tokens': typeof SettingsApiTokensRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
   '/demo/form/address': typeof DemoFormAddressRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/drafts/history'
     | '/drafts/new'
+    | '/settings/api-tokens'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/form/address'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/drafts/history'
     | '/drafts/new'
+    | '/settings/api-tokens'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/form/address'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/drafts/history'
     | '/drafts/new'
+    | '/settings/api-tokens'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
     | '/demo/form/address'
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   DraftsHistoryRoute: typeof DraftsHistoryRoute
   DraftsNewRoute: typeof DraftsNewRoute
+  SettingsApiTokensRoute: typeof SettingsApiTokensRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoApiTqTodosRoute: typeof DemoApiTqTodosRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
@@ -258,6 +271,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/api-tokens': {
+      id: '/settings/api-tokens'
+      path: '/settings/api-tokens'
+      fullPath: '/settings/api-tokens'
+      preLoaderRoute: typeof SettingsApiTokensRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/drafts/new': {
@@ -383,6 +403,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   DraftsHistoryRoute: DraftsHistoryRoute,
   DraftsNewRoute: DraftsNewRoute,
+  SettingsApiTokensRoute: SettingsApiTokensRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoApiTqTodosRoute: DemoApiTqTodosRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
@@ -397,3 +418,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
