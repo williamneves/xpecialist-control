@@ -12,7 +12,7 @@ import {
 	User,
 	XCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -83,6 +83,7 @@ export default function DraftDetailDialog({
 	const [rejectionError, setRejectionError] = useState("");
 	const [showRejectForm, setShowRejectForm] = useState(false);
 	const [showScheduleDialog, setShowScheduleDialog] = useState(false);
+	const rejectTextareaRef = useRef<HTMLTextAreaElement>(null);
 
 	// Reset dialog state when draft changes or dialog closes
 	useEffect(() => {
@@ -103,6 +104,17 @@ export default function DraftDetailDialog({
 			}
 		}
 	}, [open, draft, initialShowRejectForm, initialEditMode]);
+
+	// Auto-focus reject textarea when form appears
+	useEffect(() => {
+		if (showRejectForm) {
+			// Small delay to ensure textarea is rendered
+			const timer = setTimeout(() => {
+				rejectTextareaRef.current?.focus();
+			}, 50);
+			return () => clearTimeout(timer);
+		}
+	}, [showRejectForm]);
 
 	const { mutate: approveDraft, isPending: isApproving } = useMutation({
 		mutationFn: useConvexMutation(api.drafts.approve),
@@ -419,6 +431,7 @@ export default function DraftDetailDialog({
 									Motivo da rejeicao *
 								</span>
 								<Textarea
+									ref={rejectTextareaRef}
 									value={rejectionReason}
 									onChange={(e) => {
 										setRejectionReason(e.target.value);
