@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 5 (Agent API) - In Progress
+**Current focus:** Phase 6 (UI Polish) - In Progress
 
 ## Current Position
 
-Phase: 5 of 6 (Agent API)
-Plan: 1 of 4 in current phase
+Phase: 6 of 6 (UI Polish)
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-04 - Completed 05-01-PLAN.md (Token Infrastructure)
+Last activity: 2026-02-04 - Completed 06-02-PLAN.md (Sheet to Dialog)
 
-Progress: [█████████████████░] 68% (17/25 plans)
+Progress: [██████████████████░] 72% (18/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
+- Total plans completed: 18
 - Average duration: 4m
-- Total execution time: 58m
+- Total execution time: 61m
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [█████████████████░] 68% (17/25 pl
 | 03 | 5 | 20m | 4m |
 | 04 | 3 | 6m | 2m |
 | 05 | 1 | 3m | 3m |
-| 06 | 1 | 2m | 2m |
+| 06 | 2 | 5m | 3m |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (2m), 04-02 (2m), 04-03 (2m), 06-01 (2m), 05-01 (3m)
+- Last 5 plans: 04-02 (2m), 04-03 (2m), 06-01 (2m), 05-01 (3m), 06-02 (3m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -79,14 +79,16 @@ Recent decisions affecting current work:
 - Token format xpc_{nanoid(8)}_{nanoid(32)} for prefix visibility and secure secret
 - SHA-256 hashing via Web Crypto API for Convex compatibility
 - Soft delete via revokedAt timestamp for audit trail
+- Replace Sheet with Dialog for centered focus during review
+- Simplify button text from 'Segurar para Aprovar' to 'Aprovar'
 
 ### Pending Todos
 
-2 todos in `.planning/todos/pending/`:
-- Simplificar botao approve no drawer (ui)
+1 todo in `.planning/todos/pending/`:
 - Thread composition - multiplas mensagens (ui)
 
 Note: Layout centralizado com max-width addressed in 06-01
+Note: Simplificar botao approve addressed in 06-02
 
 ### Blockers/Concerns
 
@@ -106,7 +108,7 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed 05-01-PLAN.md (Token Infrastructure)
+Stopped at: Completed 06-02-PLAN.md (Sheet to Dialog)
 Resume file: None
 
 ## Phase 5 Progress (In Progress)
@@ -120,9 +122,17 @@ Resume file: None
 
 **Next: Plan 2 (05-02)** - HTTP Endpoints
 
-## Phase 6 Progress (Started)
+## Phase 6 Progress (In Progress)
 
 **Plan 1 (06-01) Complete:**
 - Dashboard container centered with max-w-5xl mx-auto
 - Auth loading skeleton shows while Clerk auth state loads
 - Dark mode contrast improved: muted-foreground 0.75, border 0.35, card 0.18
+
+**Plan 2 (06-02) Complete:**
+- DraftDetailDialog created as centered modal (max-w-2xl, max-h-90vh)
+- Replaced DraftDetailSheet in Dashboard
+- Approve button text simplified to "Aprovar"
+- Old Sheet component marked deprecated for post-verification cleanup
+
+**Next: Plan 3 (06-03)** - Thread Composition (if applicable)
