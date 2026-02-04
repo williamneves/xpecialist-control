@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import DraftDetailSheet from "@/components/DraftDetailSheet";
+import DraftDetailDialog from "@/components/DraftDetailDialog";
 import { KeyboardHelpDialog } from "@/components/KeyboardHelpDialog";
 import { ThreadGroup } from "@/components/ThreadGroup";
 import { Badge } from "@/components/ui/badge";
@@ -560,7 +560,7 @@ function Dashboard() {
 						</CardContent>
 					</Card>
 
-					<DraftDetailSheet
+					<DraftDetailDialog
 						draft={selectedDraft}
 						open={sheetOpen}
 						onOpenChange={handleSheetClose}
