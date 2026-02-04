@@ -103,10 +103,13 @@ Plans:
   4. UI exists to manage tokens (create, view, revoke, set permissions)
   5. OpenAPI spec is auto-generated and accessible for AI consumption
   6. All API calls are authenticated via Bearer token
-**Plans**: TBD (run /gsd:plan-phase 5 to break down)
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD
+- [ ] 05-01-PLAN.md — Schema + token utilities + auth validation
+- [ ] 05-02-PLAN.md — HTTP router + draft endpoints
+- [ ] 05-03-PLAN.md — Token endpoints + token management UI
+- [ ] 05-04-PLAN.md — OpenAPI spec + human verification
 
 ### Phase 6: UI Polish
 **Goal**: Improve layout, replace Sheet with Dialog, enhance contrast, add wizard review mode
@@ -142,5 +145,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
 | 3. Scheduling | 5/5 | Complete | 2026-02-03 |
 | 4. Keyboard Shortcuts | 3/3 | Complete | 2026-02-04 |
-| 5. Agent API | 0/? | Planned | - |
+| 5. Agent API | 0/4 | Planned | - |
 | 6. UI Polish | 0/? | Planned | - |
