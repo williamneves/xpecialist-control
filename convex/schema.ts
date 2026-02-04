@@ -8,6 +8,7 @@ export default defineSchema({
       v.literal('pending'),
       v.literal('approved'),
       v.literal('rejected'),
+      v.literal('scheduled'),
       v.literal('published')
     ),
     authorId: v.string(),
@@ -47,4 +48,19 @@ export default defineSchema({
   })
     .index('by_author', ['authorId'])
     .index('by_published', ['publishedAt']),
+
+  apiTokens: defineTable({
+    prefix: v.string(),
+    hash: v.string(),
+    description: v.string(),
+    permissions: v.array(v.string()),
+    createdBy: v.optional(v.string()),
+    createdAt: v.number(),
+    lastUsedAt: v.optional(v.number()),
+    expiresAt: v.optional(v.number()),
+    revokedAt: v.optional(v.number()),
+  })
+    .index('by_prefix', ['prefix'])
+    .index('by_hash', ['hash'])
+    .index('by_createdBy', ['createdBy']),
 })
