@@ -8,14 +8,12 @@ import {
 import type { ActionCtx } from './_generated/server'
 import { api } from './_generated/api'
 import { hashToken } from './lib/apiToken'
+import { registerTokenRoutes } from './api/tokens'
+import { registerDraftRoutes } from './api/drafts'
+import type { TokenData } from './lib/types'
 
-// Token data type from validateToken query
-export type TokenData = {
-  _id: string
-  prefix: string
-  description: string
-  permissions: string[]
-}
+// Re-export TokenData for backward compatibility
+export type { TokenData } from './lib/types'
 
 // Create app with Convex bindings
 const app: HonoWithConvex<ActionCtx> = new Hono()
@@ -64,5 +62,9 @@ app.use('/api/v1/*', async (c: Context, next: Next) => {
 app.get('/api/health', (c: Context) => {
   return c.json({ status: 'ok' })
 })
+
+// Register routes
+registerTokenRoutes(app)
+registerDraftRoutes(app)
 
 export default new HttpRouterWithHono(app)

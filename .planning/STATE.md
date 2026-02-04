@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 6 (UI Polish) - In Progress
+**Current focus:** Phase 6 (UI Polish) - Complete
 
 ## Current Position
 
 Phase: 6 of 6 (UI Polish)
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-02-04 - Completed 06-02-PLAN.md (Sheet to Dialog)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-02-04 - Completed 06-03-PLAN.md (Review Wizard Dialog)
 
-Progress: [██████████████████░] 72% (18/25 plans)
+Progress: [███████████████████] 76% (19/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
-- Average duration: 4m
-- Total execution time: 61m
+- Total plans completed: 19
+- Average duration: 3m
+- Total execution time: 63m
 
 **By Phase:**
 
@@ -32,10 +32,10 @@ Progress: [██████████████████░] 72% (18/25
 | 03 | 5 | 20m | 4m |
 | 04 | 3 | 6m | 2m |
 | 05 | 1 | 3m | 3m |
-| 06 | 2 | 5m | 3m |
+| 06 | 3 | 7m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (2m), 04-03 (2m), 06-01 (2m), 05-01 (3m), 06-02 (3m)
+- Last 5 plans: 04-03 (2m), 06-01 (2m), 05-01 (3m), 06-02 (3m), 06-03 (2m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -81,6 +81,9 @@ Recent decisions affecting current work:
 - Soft delete via revokedAt timestamp for audit trail
 - Replace Sheet with Dialog for centered focus during review
 - Simplify button text from 'Segurar para Aprovar' to 'Aprovar'
+- Wizard progress dots with ring indicator for current position
+- Prevent backdrop close in wizard (onInteractOutside e.preventDefault())
+- Auto-advance after approve/reject in wizard
 
 ### Pending Todos
 
@@ -108,7 +111,7 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed 06-02-PLAN.md (Sheet to Dialog)
+Stopped at: Completed 06-03-PLAN.md (Review Wizard Dialog)
 Resume file: None
 
 ## Phase 5 Progress (In Progress)
@@ -122,7 +125,7 @@ Resume file: None
 
 **Next: Plan 2 (05-02)** - HTTP Endpoints
 
-## Phase 6 Progress (In Progress)
+## Phase 6 Progress (Complete)
 
 **Plan 1 (06-01) Complete:**
 - Dashboard container centered with max-w-5xl mx-auto
@@ -135,4 +138,8 @@ Resume file: None
 - Approve button text simplified to "Aprovar"
 - Old Sheet component marked deprecated for post-verification cleanup
 
-**Next: Plan 3 (06-03)** - Thread Composition (if applicable)
+**Plan 3 (06-03) Complete:**
+- ReviewWizardDialog for sequential bulk pending draft review
+- Progress dots with ring indicator for current position
+- Auto-advance on approve/reject actions
+- "Revisar Todos" button visible only in pending tab with drafts
