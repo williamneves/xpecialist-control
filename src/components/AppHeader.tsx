@@ -14,7 +14,7 @@ export default function AppHeader() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center px-4">
+      <div className="container flex h-16 max-w-5xl mx-auto items-center px-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 mr-8">
           <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-[#1DA1F2]/10">

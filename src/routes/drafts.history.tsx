@@ -41,7 +41,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import DraftDetailSheet from '@/components/DraftDetailSheet'
+import DraftDetailDialog from '@/components/DraftDetailDialog'
 
 export const Route = createFileRoute('/drafts/history')({ component: DraftsHistory })
 
@@ -125,7 +125,7 @@ function DraftsHistory() {
   return (
     <>
       <SignedIn>
-        <div className="container max-w-screen-2xl py-8 px-4">
+        <div className="container max-w-5xl mx-auto py-8 px-4">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">Historico</h1>
@@ -314,7 +314,7 @@ function DraftsHistory() {
             </CardContent>
           </Card>
 
-          <DraftDetailSheet
+          <DraftDetailDialog
             draft={selectedDraft}
             open={sheetOpen}
             onOpenChange={handleSheetClose}
@@ -322,7 +322,7 @@ function DraftsHistory() {
         </div>
       </SignedIn>
       <SignedOut>
-        <div className="container max-w-screen-2xl py-8 px-4 flex items-center justify-center min-h-[60vh]">
+        <div className="container max-w-5xl mx-auto py-8 px-4 flex items-center justify-center min-h-[60vh]">
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <CardTitle>Acesso Restrito</CardTitle>

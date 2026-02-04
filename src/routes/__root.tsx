@@ -68,7 +68,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 							<AppHeader />
 							<main className="flex-1">{children}</main>
 							<footer className="border-t border-border/40 py-4">
-								<div className="container max-w-screen-2xl px-4 text-center text-sm text-muted-foreground">
+								<div className="container max-w-5xl mx-auto px-4 text-center text-sm text-muted-foreground">
 									Xpecialist Control - Gerenciamento de conteúdo para Twitter/X
 								</div>
 							</footer>

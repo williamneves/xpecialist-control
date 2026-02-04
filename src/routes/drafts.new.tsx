@@ -255,7 +255,7 @@ function NewDraft() {
         </div>
       </SignedIn>
       <SignedOut>
-        <div className="container max-w-screen-2xl py-8 px-4 flex items-center justify-center min-h-[60vh]">
+        <div className="container max-w-5xl mx-auto py-8 px-4 flex items-center justify-center min-h-[60vh]">
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <CardTitle>Acesso Restrito</CardTitle>
