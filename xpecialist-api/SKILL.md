@@ -23,7 +23,7 @@ curl -X POST \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"description":"Meu Agente","permissions":["drafts:create","drafts:read"]}' \
-  https://YOUR_CONVEX_URL/api/v1/tokens
+  https://bright-civet-459.convex.site/api/v1/tokens
 ```
 
 ## Permissoes
@@ -42,7 +42,7 @@ curl -X POST \
 
 ## Endpoints
 
-Base URL: `https://YOUR_CONVEX_URL/api/v1`
+Base URL: `https://bright-civet-459.convex.site/api/v1`
 
 ### Drafts
 
@@ -180,7 +180,7 @@ for draft in approved["drafts"]:
 Especificacao completa disponivel em:
 
 ```
-GET /api/openapi.json
+GET https://bright-civet-459.convex.site/api/openapi.json
 ```
 
 Use para gerar clients automaticamente ou validar requests.
