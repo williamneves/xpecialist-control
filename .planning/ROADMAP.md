@@ -129,10 +129,14 @@ Plans:
   - button-wrapping-drawer (simplify approve button)
 **Deferred:**
   - thread-composition (requires backend changes, separate phase)
-**Plans**: TBD (run /gsd:plan-phase 6 to break down)
+**Plans**: 5 plans
 
 Plans:
-- [ ] TBD
+- [ ] 06-01-PLAN.md — Layout + dark mode contrast + auth skeleton
+- [ ] 06-02-PLAN.md — Sheet to Dialog migration + simplified button text
+- [ ] 06-03-PLAN.md — ReviewWizardDialog (Revisar Todos wizard mode)
+- [ ] 06-04-PLAN.md — Keyboard UX (Alt+Y focus, Enter submit)
+- [ ] 06-05-PLAN.md — Human verification checkpoint
 
 ## Progress
 
@@ -146,4 +150,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 3. Scheduling | 5/5 | Complete | 2026-02-03 |
 | 4. Keyboard Shortcuts | 3/3 | Complete | 2026-02-04 |
 | 5. Agent API | 0/4 | Planned | - |
-| 6. UI Polish | 0/? | Planned | - |
+| 6. UI Polish | 0/5 | Planned | - |
