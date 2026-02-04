@@ -13,7 +13,9 @@ This roadmap delivers a high-volume review dashboard for AI-generated tweet draf
 - [ ] **Phase 1: Core Review Queue** - Authenticated draft queue with thread grouping and status views
 - [x] **Phase 2: Editing and Revision** - Edit drafts before approval, revise rejected drafts
 - [x] **Phase 3: Scheduling** - Schedule approved drafts for future publication
-- [ ] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
+- [x] **Phase 4: Keyboard Shortcuts** - Power user efficiency layer
+- [ ] **Phase 5: Agent API** - HTTP endpoints + token auth for AI agents to create/manage drafts
+- [ ] **Phase 6: UI Polish** - Layout, modal, contraste, wizard mode
 
 ## Phase Details
 
@@ -86,9 +88,48 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Install react-hotkeys-hook + create useKeyboardShortcuts hook
-- [ ] 04-02-PLAN.md — Create KeyboardHelpDialog component
-- [ ] 04-03-PLAN.md — Integrate shortcuts into Dashboard + human verification
+- [x] 04-01-PLAN.md — Install react-hotkeys-hook + create useKeyboardShortcuts hook
+- [x] 04-02-PLAN.md — Create KeyboardHelpDialog component
+- [x] 04-03-PLAN.md — Integrate shortcuts into Dashboard + human verification
+
+### Phase 5: Agent API
+**Goal**: AI agents can interact programmatically via HTTP endpoints with token-based authentication
+**Depends on**: Phase 1
+**Requirements**: API-01, API-02, API-03, API-04, API-05
+**Success Criteria** (what must be TRUE):
+  1. HTTP endpoints exist for all draft operations (create, list, approve, reject, schedule, markPublished)
+  2. API tokens can be generated with description (identify which bot/human)
+  3. Tokens have configurable permissions (including "can generate other tokens")
+  4. UI exists to manage tokens (create, view, revoke, set permissions)
+  5. OpenAPI spec is auto-generated and accessible for AI consumption
+  6. All API calls are authenticated via Bearer token
+**Plans**: TBD (run /gsd:plan-phase 5 to break down)
+
+Plans:
+- [ ] TBD
+
+### Phase 6: UI Polish
+**Goal**: Improve layout, replace Sheet with Dialog, enhance contrast, add wizard review mode
+**Depends on**: Phase 4
+**Requirements**: UI-01, UI-02, UI-03, UI-04, UI-05, UI-06, UI-07, UI-08
+**Success Criteria** (what must be TRUE):
+  1. Container uses max-w-5xl and is centralized with mx-auto
+  2. DraftDetailSheet replaced with DraftDetailDialog (modal centralizado)
+  3. Dark mode contrast improved (tabs, borders, backgrounds)
+  4. "Revisar Todos" wizard button exists and opens sequential review modal
+  5. Alt+Y focuses reject reason input automatically
+  6. Enter in reject input submits and advances to next draft
+  7. Auth loading state shows proper skeleton/spinner
+  8. Approve button text simplified (no wrapping issues)
+**Closes Todos:**
+  - layout-centralizado (mx-auto + max-width)
+  - button-wrapping-drawer (simplify approve button)
+**Deferred:**
+  - thread-composition (requires backend changes, separate phase)
+**Plans**: TBD (run /gsd:plan-phase 6 to break down)
+
+Plans:
+- [ ] TBD
 
 ## Progress
 
@@ -100,4 +141,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Core Review Queue | 0/6 | Planned | - |
 | 2. Editing and Revision | 2/2 | Complete | 2026-02-03 |
 | 3. Scheduling | 5/5 | Complete | 2026-02-03 |
-| 4. Keyboard Shortcuts | 0/3 | Planned | - |
+| 4. Keyboard Shortcuts | 3/3 | Complete | 2026-02-04 |
+| 5. Agent API | 0/? | Planned | - |
+| 6. UI Polish | 0/? | Planned | - |

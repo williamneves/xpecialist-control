@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 4 (Keyboard Shortcuts) - In progress
+**Current focus:** Phase 4 (Keyboard Shortcuts) - Complete
 
 ## Current Position
 
-Phase: 4 of 4 (Keyboard Shortcuts)
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-02-03 - Completed 04-02-PLAN.md (Keyboard Help Dialog)
+Phase: 4 of 6 (Keyboard Shortcuts)
+Plan: 3 of 3 in current phase (Phase 4 complete)
+Status: Phase complete
+Last activity: 2026-02-04 - Completed 04-03-PLAN.md (Dashboard Integration)
 
-Progress: [█████████████░] 54% (13/24 plans)
+Progress: [██████████████░] 58% (14/24 plans)
 
 ## Performance Metrics
 
@@ -90,13 +90,17 @@ From Phase 2 verification, logged for future consideration:
 - Verification drawer button wrapping - UI polish
 - App layout centering with max-width - UI polish
 
+### Roadmap Evolution
+
+- Phase 5 added: Agent API (HTTP endpoints + token auth for AI agents)
+
 ## Session Continuity
 
-Last session: 2026-02-03
-Stopped at: Completed 04-02-PLAN.md (Keyboard Help Dialog)
+Last session: 2026-02-04
+Stopped at: Completed Phase 4 (Keyboard Shortcuts)
 Resume file: None
 
-## Phase 4 Progress
+## Phase 4 Progress (Complete)
 
 **Plan 1 (04-01) Complete:**
 - react-hotkeys-hook v5.2.4 installed
@@ -106,7 +110,6 @@ Resume file: None
 - Alt+Y for reject-with-reason while armed
 - Alt+E for edit, j/k for navigation, shift+/ for help
 - Armed states independent with 5-second timeouts
-- Ready for integration in 04-03
 
 **Plan 2 (04-02) Complete:**
 - KeyboardHelpDialog component created (97 lines)
@@ -114,6 +117,13 @@ Resume file: None
 - Kbd component with muted bg, border, mono font
 - Chord pattern display (Alt+R+Alt+Y)
 - Portuguese labels consistent with app
-- Uses existing Dialog component from shadcn/ui
 
-**Next:** 04-03 (DraftsPage Integration)
+**Plan 3 (04-03) Complete:**
+- useKeyboardShortcuts hook integrated into Dashboard
+- All handlers wired (approve, reject, edit, navigation)
+- KeyboardHelpDialog connected via ? key
+- Armed state visuals (blue ring approve, red ring reject)
+- j/k navigation between pending singles
+- Human verified all shortcuts working
+
+**Ready for Phase 6:** UI Polish
