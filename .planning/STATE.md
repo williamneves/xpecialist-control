@@ -5,36 +5,37 @@
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Efficient high-volume draft review — see pending drafts, make quick decisions, move on
-**Current focus:** Phase 6 (UI Polish) - In Progress
+**Current focus:** Phase 5 (Agent API) - In Progress
 
 ## Current Position
 
-Phase: 6 of 6 (UI Polish)
-Plan: 1 of 5 in current phase
+Phase: 5 of 6 (Agent API)
+Plan: 1 of 4 in current phase
 Status: In progress
-Last activity: 2026-02-04 - Completed 06-01-PLAN.md (Layout and Dark Mode)
+Last activity: 2026-02-04 - Completed 05-01-PLAN.md (Token Infrastructure)
 
-Progress: [███████████████░] 62% (15/24 plans)
+Progress: [█████████████████░] 68% (17/25 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 17
 - Average duration: 4m
-- Total execution time: 53m
+- Total execution time: 58m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 4 | 23m | 6m |
+| 01 | 5 | 23m | 5m |
 | 02 | 2 | 4m | 2m |
 | 03 | 5 | 20m | 4m |
-| 04 | 2 | 4m | 2m |
+| 04 | 3 | 6m | 2m |
+| 05 | 1 | 3m | 3m |
 | 06 | 1 | 2m | 2m |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (4m), 03-05 (7m), 04-01 (2m), 04-02 (2m), 06-01 (2m)
+- Last 5 plans: 04-01 (2m), 04-02 (2m), 04-03 (2m), 06-01 (2m), 05-01 (3m)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - 1024px max-width (max-w-5xl) for better readability on wide screens
 - Auth skeleton matches dashboard layout structure
 - Dark mode contrast: muted-foreground 0.75, border 0.35, card 0.18
+- Token format xpc_{nanoid(8)}_{nanoid(32)} for prefix visibility and secure secret
+- SHA-256 hashing via Web Crypto API for Convex compatibility
+- Soft delete via revokedAt timestamp for audit trail
 
 ### Pending Todos
 
@@ -102,15 +106,23 @@ From Phase 2 verification, logged for future consideration:
 ## Session Continuity
 
 Last session: 2026-02-04
-Stopped at: Completed 06-01-PLAN.md (Layout and Dark Mode)
+Stopped at: Completed 05-01-PLAN.md (Token Infrastructure)
 Resume file: None
 
-## Phase 6 Progress (In Progress)
+## Phase 5 Progress (In Progress)
+
+**Plan 1 (05-01) Complete:**
+- apiTokens table with prefix, hash, permissions, and lifecycle fields
+- Token generation with xpc_{8}_{32} format and SHA-256 hashing
+- validateToken query checking hash, revocation, and expiration
+- CRUD mutations: createToken, revokeToken, listTokens
+- nanoid installed for secure token generation
+
+**Next: Plan 2 (05-02)** - HTTP Endpoints
+
+## Phase 6 Progress (Started)
 
 **Plan 1 (06-01) Complete:**
 - Dashboard container centered with max-w-5xl mx-auto
 - Auth loading skeleton shows while Clerk auth state loads
 - Dark mode contrast improved: muted-foreground 0.75, border 0.35, card 0.18
-- Addresses "Layout centralizado com max-width" todo
-
-**Next: Plan 2 (06-02)** - Approve Button Simplification
