@@ -231,6 +231,15 @@ export default function DraftDetailDialog({
 		});
 	};
 
+	const handleRejectKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+		if (e.key === "Enter" && !e.shiftKey) {
+			e.preventDefault();
+			if (rejectionReason.trim().length >= 10) {
+				handleReject();
+			}
+		}
+	};
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent
@@ -437,6 +446,7 @@ export default function DraftDetailDialog({
 										setRejectionReason(e.target.value);
 										setRejectionError("");
 									}}
+									onKeyDown={handleRejectKeyDown}
 									placeholder="Descreva o motivo (minimo 10 caracteres)..."
 									className="min-h-20 resize-none"
 								/>
