@@ -1,3 +1,6 @@
+// DEPRECATED: Replaced by DraftDetailDialog.tsx
+// Safe to delete after Phase 6 verification
+
 import { useConvexMutation } from "@convex-dev/react-query";
 import { useMutation } from "@tanstack/react-query";
 import {

@@ -16,8 +16,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { HoldButton } from "@/components/ui/hold-button";
-import { Separator } from "@/components/ui/separator";
 import {
 	Dialog,
 	DialogContent,
@@ -26,6 +24,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { HoldButton } from "@/components/ui/hold-button";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { api } from "../../convex/_generated/api";
