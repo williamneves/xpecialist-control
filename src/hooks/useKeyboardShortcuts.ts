@@ -95,6 +95,7 @@ export function useKeyboardShortcuts({
 		{
 			enabled: selectedDraft?.status === "pending",
 			preventDefault: true,
+			enableOnFormTags: true, // Allow in dialogs with focused form elements
 		},
 		[selectedDraft?.status, isArmed, onApprove],
 	);
@@ -124,6 +125,7 @@ export function useKeyboardShortcuts({
 		{
 			enabled: selectedDraft?.status === "pending",
 			preventDefault: true,
+			enableOnFormTags: true, // Allow in dialogs with focused form elements
 		},
 		[selectedDraft?.status, isRejectArmed, onRejectQuick],
 	);
@@ -142,6 +144,7 @@ export function useKeyboardShortcuts({
 		{
 			enabled: selectedDraft?.status === "pending" && isRejectArmed,
 			preventDefault: true,
+			enableOnFormTags: true, // Allow in dialogs with focused form elements
 		},
 		[selectedDraft?.status, isRejectArmed, onRejectWithReason],
 	);
@@ -156,6 +159,7 @@ export function useKeyboardShortcuts({
 			enabled:
 				selectedDraft !== null && selectedDraft.status !== "published",
 			preventDefault: true,
+			enableOnFormTags: true, // Allow in dialogs with focused form elements
 		},
 		[selectedDraft, onEdit],
 	);
